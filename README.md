@@ -27,14 +27,14 @@
 
 ## 📁 Project Structure
 
-app/
-├── data/ # Database, repositories
-├── entity/ # Room entities
-├── fragment/ # UI fragments
-├── adapter/ # RecyclerView adapters
-├── viewmodel/ # ViewModel classes
-├── utils/ # Utility classes and helpers
-└── info/ # Display models (DTOs)
+app/  
+  ├── data/ # Database, repositories<br>
+  ├── entity/ # Room entities<br>
+  ├── fragment/ # UI fragments<br>
+  ├── adapter/ # RecyclerView adapters<br>
+  ├── viewmodel/ # ViewModel classes<br>
+  ├── utils/ # Utility classes and helpers<br>
+  └── info/ # Display models (DTOs)<br>
 
 
 ## 🚀 Getting Started

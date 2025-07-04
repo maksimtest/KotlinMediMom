@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:background="#5553FF"
+    android:elevation="2dp"
+    app:cardCornerRadius="12dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dialog_bg"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="40dp">
+
+        <TextView
+            android:id="@+id/header"
+            style="@style/headerFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Sickness"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_marginTop="10dp"
+            android:padding="6dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header">
+
+            <ImageView
+                android:id="@+id/child_photo"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/child_photo"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_boy" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/child_name"
+            style="@style/titleFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="IRA"
+            android:textColor="@color/secondBlock_textColor"
+            app:layout_constraintBottom_toBottomOf="@id/card_view"
+            app:layout_constraintStart_toEndOf="@id/card_view"
+            app:layout_constraintTop_toTopOf="@id/card_view" />
+
+        <TextView
+            android:id="@+id/text_time"
+            style="@style/descriptionFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/add_btn_lg"
+            android:padding="12dp"
+            android:text="18:00"
+            android:textColor="@color/dialog_titleTextColor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/card_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/card_view" />
+
+        <LinearLayout
+            android:id="@+id/time_spinner_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/spinner_bg"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/text_time"
+            app:layout_constraintTop_toBottomOf="@id/text_time">
+
+            <Spinner
+                android:id="@+id/spinner_time_hrs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_time_minutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/temperature_spinner_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/spinner_bg"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/time_spinner_layout">
+
+            <Spinner
+                android:id="@+id/spinner_whole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="."
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_decimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="*C"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@id/temperature_spinner_layout"
+            app:layout_constraintStart_toEndOf="@id/temperature_spinner_layout"
+            app:layout_constraintTop_toTopOf="@id/temperature_spinner_layout" />
+
+        <ImageView
+            android:id="@+id/temperature_btn"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/example_image_name"
+            android:src="@drawable/ic_add_image"
+            app:layout_constraintBottom_toBottomOf="@id/temperature_spinner_layout"
+            app:layout_constraintEnd_toStartOf="@id/cancel_btn"
+            app:layout_constraintTop_toTopOf="@id/temperature_spinner_layout" />
+
+        <ImageView
+            android:id="@+id/cancel_btn"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/example_image_name"
+            android:rotation="45"
+            android:src="@drawable/ic_add_image"
+            app:layout_constraintBottom_toBottomOf="@id/temperature_spinner_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/temperature_spinner_layout" />
+
+        <TextView
+            android:id="@+id/title_sick_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:text="Sickness since:"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temperature_spinner_layout" />
+
+        <LinearLayout
+            android:id="@+id/date_spinner_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/spinner_bg"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/title_sick_start"
+            app:layout_constraintStart_toEndOf="@id/title_sick_start"
+            app:layout_constraintTop_toTopOf="@id/title_sick_start">
+
+            <Spinner
+                android:id="@+id/spinner_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="."
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_months"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/reduce_date"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/add_btn_lg"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="@id/date_spinner_layout"
+            app:layout_constraintTop_toBottomOf="@id/date_spinner_layout" />
+
+        <ImageView
+            android:id="@+id/increase_date"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/add_btn_lg"
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintEnd_toEndOf="@id/date_spinner_layout"
+            app:layout_constraintTop_toBottomOf="@id/date_spinner_layout" />
+
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reduce_date" />
+
+        <TextView
+            android:id="@+id/title_healthy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Set Healthy"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/healthy_btn"
+            app:layout_constraintBottom_toBottomOf="@id/healthy_btn"
+            />
+
+        <ImageView
+            android:id="@+id/healthy_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_ok_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/separator" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

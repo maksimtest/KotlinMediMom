@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="dialogTitleText">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:titleMarginStart">20dp</item>
+        <item name="android:textColor">@color/dialog_titleTextColor</item>
+    </style>
+    <style name="headerFontStyle">
+        <item name="android:fontFamily">@font/yeonsung</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="greyCommentFontStyle">
+        <item name="android:fontFamily">@font/adlam_display</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="titleFontStyle">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="descriptionFontStyle">
+        <item name="android:fontFamily">@font/yeonsung</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="timeFontStyle">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+</resources>

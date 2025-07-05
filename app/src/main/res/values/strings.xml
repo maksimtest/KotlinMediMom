@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">MediMom</string>
+    <string name="firstPage_description">Track every dose with confidence.</string>
+    <string name="firstPage_description1">Следите за приёмом лекарств без стресса.</string>
+    <string name="firstPage_title">Welcome to MediMom!</string>
+    <string name="firstPage_comment">Good health to all</string>
+    <string name="firstPage_imageDescription">Medicine Mom pill tracker</string>
+    <string name="children_title">Children</string>
+    <string name="children_add_btn_name">Добавить</string>
+    <string name="children_cancel_btn_name">Cancel</string>
+    <string name="children_add_btn_name1">Add</string>
+    <string name="add_title">Add icon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="state_treatment">Treatment</string>
+    <string name="child_photo">Child photo</string>
+    <string name="healthy_person">HEALTHY_PERSON</string>
+    <string name="healthy_state">Healthy</string>
+    <string name="photo_of_child">Photo of Child</string>
+    <string name="title_photo">Photo:</string>
+    <string name="add_photo">Add photo</string>
+    <string name="change_photo">Change photo</string>
+    <string name="name">Name:</string>
+    <string name="birth_day">Birth day:</string>
+    <string name="enter_the_name">Enter the name</string>
+    <string name="medicine_title">Medicine</string>
+    <string name="example_how_mush_getting">2 pills and 3 time per day</string>
+    <string name="example_name">name</string>
+    <string name="example_image_name">image</string>
+    <string name="header_daily_routine">Daily routine</string>
+    <string name="set_temperature">Set Temperature</string>
+    <string name="safe_btn">Сохранить</string>
+    <string name="safe_image">Safe image</string>
+    <string name="example_2_year">2 year</string>
+    <string name="example_4_2_kg">4.2 kg</string>
+    <string name="example_75_gr_c">75*C</string>
+    <string name="example_short_date">25.06</string>
+    <string name="example_2_3">2 by 3</string>
+    <string name="title_last">Last:</string>
+    <string name="title_weight">Weight:</string>
+    <string name="example_10">10</string>
+    <string name="unit_kg">kg</string>
+    <string name="example_category">Category</string>
+    <string name="example_description">Description</string>
+    <string name="title_category">Category</string>
+</resources>

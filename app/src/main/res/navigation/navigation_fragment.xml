@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_fragment"
+    app:startDestination="@id/children">
+
+    <fragment
+        android:id="@+id/children"
+        android:name="com.pilltracker.fragment.ChildrenFragment"
+        android:label="fragment_children"
+        tools:layout="@layout/fragment_children" />
+    <fragment
+        android:id="@+id/daily"
+        android:name="com.pilltracker.fragment.DailyFragment"
+        android:label="fragment_daily"
+        tools:layout="@layout/fragment_daily" />
+    <fragment
+        android:id="@+id/medicine"
+        android:name="com.pilltracker.fragment.MedicineFragment"
+        android:label="fragment_medicine"
+        tools:layout="@layout/fragment_medicine" />
+    <fragment
+        android:id="@+id/recipe"
+        android:name="com.pilltracker.fragment.RecipeFragment"
+        android:label="fragment_recipe"
+        tools:layout="@layout/fragment_recipe" />
+    <fragment
+        android:id="@+id/statistic"
+        android:name="com.pilltracker.fragment.StatisticFragment"
+        android:label="fragment_statistic"
+        tools:layout="@layout/fragment_statistic" />
+</navigation>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="attention_color">#A9C12E54</color>
+
+    <color name="start_gradient_color">#6391F4</color>
+    <color name="end_gradient_color">#3C76F1</color>
+
+    <color name="main_background">#F1F1F1F1</color>
+
+    <color name="mainBlock_mainTextColor">#FFFFFF</color>
+    <color name="mainBlock_secondTextColor">#C8C8C8</color>
+    <color name="mainBlock_commentTextColor">#AFAFAF</color>
+
+    <color name="secondBlock_background">#C5DBE0</color>
+    <color name="secondBlock_textColor">#000000</color>
+    <color name="secondBlock_extraTextColor">#787878</color>
+
+    <!--    end of colors and start of blocks-->
+    <color name="firstPage_background">@color/main_background</color>
+    <color name="firstPage_textColor">@color/mainBlock_mainTextColor</color>
+    <color name="firstPage_commentTextColor">@color/mainBlock_secondTextColor</color>
+
+
+    <color name="dialog_background">@color/main_background</color>
+    <color name="dialog_titleTextColor">#96505059</color>
+    <color name="dialog_textColor">#3576E7</color>
+    <color name="dialog_borderColor">#969696AA</color>
+
+
+<!--  end of  -->
+
+    <color name="container_background">#3576E7</color>
+    <color name="container_textColor">#FFFFFFFF</color>
+
+    <color name="primaryButton_background">#FFFFFFFF</color>
+    <color name="primaryButton_textColor">#3576E7</color>
+    <color name="primaryButton_borderColor">#3576E7</color>
+
+
+    <color name="box_background">#FBB7E7</color>
+    <color name="box_textColor">#FF000000</color>
+    #3576E7
+</resources>

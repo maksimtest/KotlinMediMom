@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        style="@style/titleFontStyle"
+        android:text="@string/example_category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+<TextView
+    android:id="@+id/antipyretic_mark"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Fight with t*C"
+    android:textSize="12sp"
+    android:background="@drawable/add_btn_lg"
+    android:padding="8dp"
+    android:textStyle="bold"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="-10dp"
+    android:textColor="@color/attention_color"
+    app:layout_constraintStart_toEndOf="@id/name"
+    app:layout_constraintTop_toTopOf="@id/name"
+    />
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/example_description"
+        android:textColor="@color/mainBlock_commentTextColor"
+        style="@style/greyCommentFontStyle"
+        android:lineSpacingExtra="4dp"
+        android:maxLines="8"
+        android:ellipsize="end"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:breakStrategy="simple"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintStart_toStartOf="@id/name"
+        tools:ignore="TextViewEdits" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

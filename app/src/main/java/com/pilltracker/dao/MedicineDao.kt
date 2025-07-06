@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.pilltracker.data.MedicineWithCategory
 import com.pilltracker.entity.MedicineEntity
 
@@ -12,6 +13,9 @@ import com.pilltracker.entity.MedicineEntity
 interface MedicineDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(medicineEntity: MedicineEntity)
+
+    @Update
+    suspend fun update(item: MedicineEntity)
 
     @Query("SELECT * FROM medicines")
     suspend fun getAll(): List<MedicineEntity>
@@ -21,7 +25,7 @@ interface MedicineDao {
 
     @Transaction
     @Query("""
-        SELECT m.name as name, m.photo as photo, 
+        SELECT m.name as name, m.photoInt as photoInt, m.photoUri as photoUri, 
             m.unitId as description, c.name as categoryName
         FROM medicines m
         JOIN categories c ON m.categoryId = c.id

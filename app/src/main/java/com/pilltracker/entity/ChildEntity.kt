@@ -1,5 +1,6 @@
 package com.pilltracker.entity
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDate
@@ -11,5 +12,6 @@ class ChildEntity(
     var age: Int,
     val weight: Int,
     val birthDate: LocalDate,
-    val photo: Int
+    val photoInt: Int,
+    val photoUri: Uri?
 )

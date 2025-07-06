@@ -1,5 +1,6 @@
 package com.pilltracker.entity
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -28,5 +29,6 @@ data class MedicineEntity(
     val name: String,
     val categoryId: Int,
     val unitId: Int,
-    val photo: Int
+    val photoInt: Int,
+    val photoUri: Uri?
 )

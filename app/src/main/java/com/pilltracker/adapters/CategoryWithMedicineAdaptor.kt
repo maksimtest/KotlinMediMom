@@ -33,16 +33,16 @@ class CategoryWithMedicineAdaptor :
         val item = list[position]
         val name = item.category.name
         holder.name.text = name
-        var limit = 10
-        if (itemCount > 8) {
-            limit = 3
-        } else if (itemCount > 6) {
-            limit = 7
-        }
-        val description = item.medicineEntities.map { it.name }.take(limit).joinToString()
-        val description1 = item.medicineEntities.take(limit).map { it.name }.joinToString()
-        val description2 = item.medicineEntities.size
-        Log.d("MyTag", "[$name, $description, $description1, $description2")
+//        var limit = 10
+//        if (itemCount > 8) {
+//            limit = 3
+//        } else if (itemCount > 6) {
+//            limit = 7
+//        }
+        val description = item.medicineEntities.map { it.name }.joinToString()
+        //val description1 = item.medicineEntities.take(limit).map { it.name }.joinToString()
+        //val description2 = item.medicineEntities.size
+        //Log.d("MyTag", "[$name, $description, $description1, $description2")
         holder.description.text = description
         if (description.isEmpty()) {
             holder.description.visibility = View.GONE

@@ -11,7 +11,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pilltracker.R
+import com.pilltracker.entity.SicknessEntity
 import com.pilltracker.info.ChildInfo
+import kotlin.Int
 
 class ChildrenAdapter(
     val healthy: Boolean,
@@ -77,8 +79,13 @@ class ChildrenAdapter(
         holder.name.text = child.name
         holder.age.text = "${child.age} years"
         holder.weight.text = "${child.weight} kg"
-        holder.photo.setImageResource(child.photo)
-        if(child.photo == 0) holder.photo.setImageResource(R.drawable.ic_boy)
+        if(child.photoUri!=null){
+            holder.photo.setImageURI(child.photoUri)
+        } else if(child.photoInt!=0){
+            holder.photo.setImageResource(child.photoInt)
+        } else{
+            holder.photo.setImageResource(R.drawable.ic_boy)
+        }
         if (!healthy) {
             holder.sickDate?.text = child.sickDate
             val temperature = child.lastTemperature;
@@ -89,9 +96,6 @@ class ChildrenAdapter(
             }
         }
      }
-    fun openSetSickDialog(){
-
-    }
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(newItems: List<ChildInfo>) {
         Log.d("MyTag", "updateList, healthy $healthy, $newItems")

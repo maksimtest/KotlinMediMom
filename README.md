@@ -7,6 +7,16 @@
 ![Main screen](screenshots/screenshot_01.png)
 *(Insert screenshots here if available)*
 
+- r
+
+<img src="screenshots/screenshot_01.png" width="350" alt="Main screen" />
+- f
+- 
+<p float="left">
+  <img src="screenshots/screenshot_01.png" width="300" />
+  <img src="screenshots/child_profile.png" width="300" />
+</p>
+
 ## ✨ Features
 
 - 👶 Manage profiles for multiple children

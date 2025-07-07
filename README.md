@@ -36,6 +36,11 @@ app/
   ├── utils/ # Utility classes and helpers<br>
   └── info/ # Display models (DTOs)<br>
 
+## Privacy Policy
+
+This application respects your privacy. You can read the full privacy policy here:
+
+👉 [Privacy Policy](./privacy-policy.html)
 
 ## 🚀 Getting Started
 

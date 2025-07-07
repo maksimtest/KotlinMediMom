@@ -4,10 +4,10 @@
 
 ## 📱 Screenshots
 
-![Children screen]<img src="screenshots/screenshot_01.png" width="250" alt="Children screen" />
-![Sickness screen]<img src="screenshots/screenshot_02.png" width="200" alt="Sickness screen" />
-![Daily routine screen]<img src="screenshots/screenshot_03.png" width="200" alt="Daily routine screen" />
-![Statistic screen]<img src="screenshots/screenshot_04.png" width="200" alt="Statistic screen" />
+<img src="screenshots/screenshot_01.png" width="200" alt="Children screen" />
+<img src="screenshots/screenshot_02.png" width="200" alt="Sickness screen" />
+<img src="screenshots/screenshot_03.png" width="200" alt="Daily routine screen" />
+<img src="screenshots/screenshot_04.png" width="200" alt="Statistic screen" />
 
 ## ✨ Features
 

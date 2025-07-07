@@ -4,6 +4,7 @@
 
 ## 📱 Screenshots
 
+![Main screen](screenshots/screenshot_01.png)
 *(Insert screenshots here if available)*
 
 ## ✨ Features

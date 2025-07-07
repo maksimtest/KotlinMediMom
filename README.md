@@ -4,18 +4,10 @@
 
 ## 📱 Screenshots
 
-![Main screen](screenshots/screenshot_01.png)
-*(Insert screenshots here if available)*
-
-- r
-
-<img src="screenshots/screenshot_01.png" width="350" alt="Main screen" />
-- f
-- 
-<p float="left">
-  <img src="screenshots/screenshot_01.png" width="300" />
-  <img src="screenshots/child_profile.png" width="300" />
-</p>
+![Children screen]<img src="screenshots/screenshot_01.png" width="250" alt="Children screen" />
+![Sickness screen]<img src="screenshots/screenshot_02.png" width="200" alt="Sickness screen" />
+![Daily routine screen]<img src="screenshots/screenshot_03.png" width="200" alt="Daily routine screen" />
+![Statistic screen]<img src="screenshots/screenshot_04.png" width="200" alt="Statistic screen" />
 
 ## ✨ Features
 

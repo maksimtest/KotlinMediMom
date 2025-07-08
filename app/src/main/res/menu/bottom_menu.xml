@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/children"
+        android:title=""
+        android:icon="@drawable/menu_user"
+        />
+    <item
+        android:id="@+id/daily"
+        android:title=""
+        android:icon="@drawable/menu_daily"
+        />
+
+    <item
+        android:id="@+id/medicine"
+        android:title=""
+        android:icon="@drawable/menu_medicine"
+        />
+<!--    <item-->
+<!--        android:id="@+id/recipe"-->
+<!--        android:title=""-->
+<!--        android:icon="@drawable/menu_treatment"-->
+<!--        />-->
+    <item
+        android:id="@+id/statistic"
+        android:title=""
+        android:icon="@drawable/menu_history"
+        />
+</menu>

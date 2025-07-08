@@ -4,21 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="20dp"
+    android:layout_margin="10dp"
     android:background="#5553FF"
-    app:cardCornerRadius="12dp"
     android:elevation="2dp"
-    >
+    android:padding="20dp"
+    app:cardCornerRadius="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dialog_bg"
-        android:paddingBottom="40dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="20dp"
-        >
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/header"
@@ -30,154 +26,142 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/photo_layout"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/header">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_view"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="10dp"
-                android:background="@color/dialog_borderColor"
-                android:elevation="2dp"
-                app:cardCornerRadius="4dp">
-
-                <ImageView
-                    android:id="@+id/medicine_photo"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/photo_of_child"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_boy" />
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-            <TextView
-                android:id="@+id/choose_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/blue_btn_bg"
-                android:textColor="@color/white"
-                android:layout_gravity="center_vertical"
-                android:gravity="end"
-                android:text="@string/add_photo"
-                app:layout_constraintTop_toTopOf="@id/photo_layout"
-                app:layout_constraintBottom_toBottomOf="@id/photo_layout"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
-
-        <LinearLayout
-            android:id="@+id/name_layout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/photo_layout">
-
-            <TextView
-                style="@style/dialogTitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_gravity="center_vertical"
-                android:text="@string/name" />
-
-            <EditText
-                android:id="@+id/medicine_name"
-                android:layout_width="240dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="40dp"
-                android:autofillHints=""
-                android:background="@drawable/white_input_bg"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:layout_gravity="center_vertical"
-                android:hint="@string/enter_the_name"
-                android:inputType="text" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/category_layout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/photo_layout">
-
-            <TextView
-                style="@style/dialogTitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_gravity="center_vertical"
-                android:text="@string/title_category" />
-
-            <Spinner
-                android:id="@+id/category_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="140dp"
-                android:layout_marginStart="20dp"
-                />
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cancel_button_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/category_layout"
-            >
-            <include
-                android:id="@+id/cancel_button"
-                layout="@layout/view_cancel_btn" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/add_button_layout"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="@id/cancel_button_layout"
-            app:layout_constraintBottom_toBottomOf="@id/cancel_button_layout"
+            android:background="@color/dialog_borderColor"
+            android:elevation="2dp"
+            android:padding="6dp"
+            app:cardCornerRadius="4dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header"
 
             >
 
-            <include
-                android:id="@+id/add_button"
-                layout="@layout/view_add_btn" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/medicine_photo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/photo_of_child"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_boy" />
+        </androidx.cardview.widget.CardView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/save_button_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="@id/cancel_button_layout"
-            app:layout_constraintBottom_toBottomOf="@id/cancel_button_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            >
+    <TextView
+        android:id="@+id/choose_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/blue_btn_bg"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/add_photo"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/card_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/card_view" />
 
-            <include
-                android:id="@+id/save_button"
-                layout="@layout/view_save_btn" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/title_name"
+        style="@style/dialogTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:text="@string/name"
+        app:layout_constraintBottom_toBottomOf="@id/medicine_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/medicine_name" />
 
+    <EditText
+        android:id="@+id/medicine_name"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:autofillHints=""
+        android:paddingStart="20dp"
+        android:background="@drawable/white_input_bg"
+        android:gravity="center_vertical"
+        android:hint="@string/enter_the_name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_view" />
 
+    <TextView
+        android:id="@+id/title_category"
+        style="@style/dialogTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:text="@string/title_category"
+        app:layout_constraintBottom_toBottomOf="@id/category_name"
+        app:layout_constraintTop_toTopOf="@id/category_name"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/category_name"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:background="@drawable/add_btn_lg"
+        android:padding="12dp"
+        android:textColor="@color/dialog_titleTextColor"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/title_category"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicine_name" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cancel_button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category_name">
+
+        <include
+            android:id="@+id/cancel_button"
+            layout="@layout/view_cancel_btn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/cancel_button_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cancel_button_layout">
+
+        <include
+            android:id="@+id/add_button"
+            layout="@layout/view_add_btn" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/save_button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/cancel_button_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cancel_button_layout">
+
+        <include
+            android:id="@+id/save_button"
+            layout="@layout/view_save_btn" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout></androidx.cardview.widget.CardView>

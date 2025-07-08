@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="end"
-    android:padding="10dp"
     android:textColor="@color/mainBlock_commentTextColor"
     android:textSize="18sp">
 
@@ -64,15 +63,15 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/today"
         style="@style/titleFontStyle"
-        android:layout_width="78dp"
+        android:layout_width="90dp"
         android:layout_height="40dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/add_btn_lg"
+        android:background="@drawable/dialog_bg"
         android:gravity="center"
-        android:text="18:00"
-        android:textColor="@color/dialog_titleTextColor"
+        android:text="25 May"
+        android:textColor="@color/secondBlock_textColor"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/name_layout"
@@ -181,7 +180,7 @@
             android:focusable="false"
             android:hint="Enter the time"
             android:text="18:00"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <EditText
@@ -196,28 +195,31 @@
             android:gravity="center"
             android:hint="Enter temperature"
             android:text="36.6"
-            android:textColor="@color/dialog_titleTextColor"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/unit_temperature"
+            style="@style/titleFontStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="*C"
+            android:text="°C"
             android:layout_marginStart="4dp"/>
 
         <EditText
             android:id="@+id/new_medicine"
+            style="@style/titleFontStyle"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:minWidth="120dp"
             android:gravity="center"
             android:clickable="true"
             android:focusable="false"
+            android:textSize="16sp"
             android:layout_marginStart="6dp"
             android:background="@drawable/add_btn_lg"
             android:hint="Medicine" />
+
         <ImageView
             android:id="@+id/add_btn"
             android:layout_width="36dp"
@@ -230,6 +232,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:rotation="45"
+            android:visibility="gone"
             android:layout_marginStart="6dp"
             android:src="@drawable/ic_add_image"
             />
@@ -239,9 +242,7 @@
         android:id="@+id/line_separator"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="10dp"
         android:background="@color/start_gradient_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/new_line_layout" />

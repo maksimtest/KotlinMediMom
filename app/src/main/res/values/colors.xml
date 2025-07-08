@@ -19,7 +19,7 @@
 
     <!--    end of colors and start of blocks-->
     <color name="firstPage_background">@color/main_background</color>
-    <color name="firstPage_textColor">@color/mainBlock_mainTextColor</color>
+    <color name="firstPage_textColor">@color/black</color>
     <color name="firstPage_commentTextColor">@color/mainBlock_secondTextColor</color>
 
 

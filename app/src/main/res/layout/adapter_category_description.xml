@@ -20,7 +20,7 @@
     android:id="@+id/antipyretic_mark"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Fight with t*C"
+    android:text="Fight with t°C"
     android:textSize="12sp"
     android:background="@drawable/add_btn_lg"
     android:padding="8dp"

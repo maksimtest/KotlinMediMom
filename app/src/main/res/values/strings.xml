@@ -10,7 +10,6 @@
     <string name="children_cancel_btn_name">Cancel</string>
     <string name="children_add_btn_name1">Add</string>
     <string name="add_title">Add icon</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="state_treatment">Treatment</string>
     <string name="child_photo">Child photo</string>
@@ -29,11 +28,11 @@
     <string name="example_image_name">image</string>
     <string name="header_daily_routine">Daily routine</string>
     <string name="set_temperature">Set Temperature</string>
-    <string name="safe_btn">Сохранить</string>
+    <string name="safe_btn">Save</string>
     <string name="safe_image">Safe image</string>
     <string name="example_2_year">2 year</string>
     <string name="example_4_2_kg">4.2 kg</string>
-    <string name="example_75_gr_c">75*C</string>
+    <string name="example_75_gr_c">75°C</string>
     <string name="example_short_date">25.06</string>
     <string name="example_2_3">2 by 3</string>
     <string name="title_last">Last:</string>
@@ -43,4 +42,6 @@
     <string name="example_category">Category</string>
     <string name="example_description">Description</string>
     <string name="title_category">Category</string>
+    <string name="example_paracetamol">Paracetamol</string>
+    <string name="example_2_days">2 days</string>
 </resources>

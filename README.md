@@ -28,13 +28,13 @@
 ## 📁 Project Structure
 
 app/  
-  ├── data/ # Database, repositories<br>
-  ├── entity/ # Room entities<br>
-  ├── fragment/ # UI fragments<br>
-  ├── adapter/ # RecyclerView adapters<br>
-  ├── viewmodel/ # ViewModel classes<br>
-  ├── utils/ # Utility classes and helpers<br>
-  └── info/ # Display models (DTOs)<br>
+  ├── data/ &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Database, repositories<br>
+  ├── entity/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Room entities<br>
+  ├── fragment/ &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # UI fragments<br>
+  ├── adapter/ &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # RecyclerView adapters<br>
+  ├── viewmodel/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # ViewModel classes<br>
+  ├── utils/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Utility classes and helpers<br>
+  └── info/ &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Display models (DTOs)<br>
 
 ## Privacy Policy
 

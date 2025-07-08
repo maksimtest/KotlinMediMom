@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/firstPage_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/firstPage_background"
     tools:context=".SplashActivity">
 
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="190dp"
         android:layout_height="190dp"
-        android:layout_marginTop="155dp"
+        android:layout_marginTop="100dp"
         android:contentDescription="@string/firstPage_imageDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/yeonsung"
         android:text="@string/firstPage_title"
         android:textColor="@color/firstPage_textColor"
@@ -42,7 +42,8 @@
         android:fontFamily="@font/lato"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="@string/firstPage_description1"
+        android:gravity="center"
+        android:text="@string/firstPage_description"
         android:textColor="@color/firstPage_textColor"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -50,11 +51,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+<!--    <EditText-->
+<!--        android:id="@+id/date"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:autofillHints=""-->
+<!--        android:hint="02.07"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/textView3" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/date_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:text="change date"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/date" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/go_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="go to Main"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/date_btn" />-->
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="80dp"
         android:fontFamily="@font/mukta"
         android:text="@string/firstPage_comment"
         android:textAlignment="center"

@@ -40,7 +40,7 @@ app/
 
 This application respects your privacy. You can read the full privacy policy here:
 
-👉 [Privacy Policy](./privacy-policy.html)
+👉 [Privacy Policy](https://maksimtest.github.io/KotlinMediMom/privacy-policy.html)
 
 ## 🚀 Getting Started
 

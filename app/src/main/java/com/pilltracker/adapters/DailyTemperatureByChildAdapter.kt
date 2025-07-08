@@ -9,16 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pilltracker.R
 import com.pilltracker.entity.FactEntity
 import com.pilltracker.entity.MedicineEntity
 import com.pilltracker.entity.SicknessEntity
-import com.pilltracker.fragment.DialogHelper
 import com.pilltracker.info.DailyTemperatureByDayInfo
 import com.pilltracker.info.DailyTemperatureListInfo
 import com.pilltracker.util.StringUtil
@@ -30,6 +27,7 @@ class DailyTemperatureByChildAdapter(
     val medicineList: List<MedicineEntity>,
     val activeSicknessesMap: Map<Int, SicknessEntity>,
     val currentDate: LocalDate,
+    val currentTime: LocalTime,
     private val onTimeClick: (context: Context, newLineTimeView: TextView) -> Unit,
     private val onTemperatureClick: (context: Context, newLineTempView: TextView) -> Unit,
     private val onMedicineClick: (
@@ -46,7 +44,7 @@ class DailyTemperatureByChildAdapter(
         val childNameView: TextView = view.findViewById(R.id.child_name)
         val childAgeView: TextView = view.findViewById(R.id.child_age)
         val childPhotoView: ImageView = view.findViewById(R.id.child_photo)
-        val timeView: TextView = view.findViewById(R.id.time)
+        val todayView: TextView = view.findViewById(R.id.today)
         val currentDateView: TextView = view.findViewById(R.id.current_date)
         val countDaysView: TextView = view.findViewById(R.id.count_days)
         val rvTemperatures: RecyclerView = view.findViewById(R.id.temperature_list)
@@ -75,8 +73,6 @@ class DailyTemperatureByChildAdapter(
 
     override fun getItemCount() = list.size
 
-    // TODO fix this annotation RequiresApi(Build.VERSION_CODES.O)
-    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ChildViewHolder, position: Int) {
         // item=DailyTemperatureListInfo(child, list)
@@ -94,7 +90,7 @@ class DailyTemperatureByChildAdapter(
             holder.childPhotoView.setImageResource(child.photoInt)
         }
 
-        holder.timeView.text = "00:00"//StringUtil.convertTimeToString()
+        holder.todayView.text = StringUtil.convertDateToShortNameString(currentDate)
 
         holder.adapter = DailyTemperatureByOneAdapter()
         holder.rvTemperatures.layoutManager = LinearLayoutManager(holder.itemView.context)
@@ -123,13 +119,21 @@ class DailyTemperatureByChildAdapter(
         holder.newLineAddBtn.setOnClickListener {
             val temper:Double = StringUtil.convertTemperatureFromString(holder.newLineTemperatureView.text.toString())
             val medicineName = holder.newLineMedicineView.text.toString()
+
             val filteredMedicine: List<MedicineEntity> = medicineList.filter { it.name ==medicineName}
-            val medicineId = if(filteredMedicine.isEmpty()) null else medicineList[0].id
+            Log.d("MyTag", "DTByChild_1, medicineName $medicineName, filteredMedicine.size ${filteredMedicine.size}")
+
+            val medicineId: Int? = filteredMedicine[0].id
+            Log.d("MyTag", "DTByChild_2, medicineId $medicineId")
 
             val sickness = activeSicknessesMap.get(child.id)
             val sicknessId = sickness?.id
+            Log.d("MyTag", "DTByChild_3, sicknessId $sicknessId, sickness $sickness")
             val date: LocalDate = currentDate
-            val time: LocalTime= StringUtil.convertTimeFromString(holder.timeView.text.toString())
+            val timeV = holder.newLineTimeView.text.toString()
+            val time = StringUtil.convertTimeFromString(timeV)
+
+            //val time: LocalTime= StringUtil.convertTimeFromString(holder.timeView.text.toString())
 
             val fact = FactEntity(0, child.id,temper,false, medicineId, sicknessId, true, date, time)
             Log.d("MyTag", "DailyAdapter_addBtn_5, fact: $fact")
@@ -148,8 +152,8 @@ class DailyTemperatureByChildAdapter(
             showNewLineViews(false, holder)
         }
         // time
-        val localTimeNow = LocalTime.now()
         //holder.newLineTimeView.text = "18:00"
+        holder.newLineTimeView.text = StringUtil.convertTimeToString(LocalTime.now())
         holder.newLineTimeView.setOnClickListener {
             onTimeClick(context, holder.newLineTimeView)
         }
@@ -166,18 +170,6 @@ class DailyTemperatureByChildAdapter(
         }
     }
 
-//    fun saveTime(timeValue: String) {
-//        newTimeValue = timeValue
-//    }
-//
-//    fun saveTemperature(temperatureValue: String) {
-//        newTimeValue = temperatureValue
-//    }
-//
-//    fun saveMedicine(medicineName: String) {
-//        newMedicineName = medicineName
-//    }
-
     fun showNewLineViews(value: Boolean, holder: ChildViewHolder) {
         holder.newLinePlusBtn.visibility = if (value) View.GONE else View.VISIBLE
         holder.newLineTimeView.visibility = if (value) View.VISIBLE else View.GONE
@@ -185,35 +177,32 @@ class DailyTemperatureByChildAdapter(
         holder.newLineUnitView.visibility = if (value) View.VISIBLE else View.GONE
         holder.newLineMedicineView.visibility = if (value) View.VISIBLE else View.GONE
         holder.newLineAddBtn.visibility = if (value) View.VISIBLE else View.GONE
-        holder.newLineCancelBtn.visibility = if (value) View.VISIBLE else View.GONE
+        //holder.newLineCancelBtn.visibility = if (value) View.VISIBLE else View.GONE
+        holder.newLineCancelBtn.visibility = View.GONE
 
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
     fun updateList(holder: ChildViewHolder) {
 //        Toast.makeText(holder.itemView.context, "current=${holder.currentIndex}", Toast.LENGTH_SHORT).show()
 
         val dayInfo = holder.subList[holder.currentIndex]
 
         holder.currentDateView.text = StringUtil.convertDateToShortNameString(dayInfo.date)
-        holder.countDaysView.text = "${dayInfo.countDays} days"
+        val countDaysAgo = StringUtil.convertCountDaysToShortString(dayInfo.countDays)
+        holder.countDaysView.text = "${countDaysAgo} day"
         holder.adapter.submitList(dayInfo.list)
-//        val current = dailyTemperatureList[currentIndex]
-//        tvDate.text = current.date.toString()
-//        adapter.submitList(current.measurements)
-        if (holder.currentIndex < holder.subList.size - 1) {
-            holder.goToNextDayBtn.setBackgroundResource(R.drawable.add_btn_lg)
-        } else {
-            holder.goToNextDayBtn.setBackgroundResource(R.drawable.second_block_bg)
 
-        }
         if (holder.currentIndex > 0) {
-            holder.goToPrevDayBtn.setBackgroundResource(R.drawable.add_btn_lg)
+            holder.goToPrevDayBtn.alpha = 1.0f
         } else {
-            holder.goToPrevDayBtn.setBackgroundResource(R.drawable.second_block_bg)
+            holder.goToPrevDayBtn.alpha = 0.3f
         }
-
+        if (holder.currentIndex < holder.subList.size - 1) {
+            holder.goToNextDayBtn.alpha = 1.0f
+        } else {
+            holder.goToNextDayBtn.alpha = 0.3f
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

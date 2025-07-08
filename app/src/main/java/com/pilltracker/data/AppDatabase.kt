@@ -21,7 +21,7 @@ import com.pilltracker.entity.UnitEntity
 @Database(entities = [
     CategoryEntity::class, MedicineEntity::class, UnitEntity::class,
     ChildEntity::class, FactEntity::class, SicknessEntity::class],
-    version = 11,
+    version = 30,
     exportSchema = true)
 
 @TypeConverters(Converters::class)

@@ -1,8 +1,11 @@
 package com.pilltracker.data
 
+import android.net.Uri
+
 data class MedicineWithCategory(
     val name:String,
-    val photo: Int,
+    val photoInt: Int,
+    val photoUri: Uri?,
     val description: String,
     val categoryName:String
 )

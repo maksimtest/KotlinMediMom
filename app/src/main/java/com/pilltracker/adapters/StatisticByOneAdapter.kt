@@ -1,63 +1,84 @@
 package com.pilltracker.adapters
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.pilltracker.R
-import com.pilltracker.info.DailyTemperatureByOneInfo
+import com.pilltracker.info.StatisticByOneInfo
+import com.pilltracker.util.StringUtil
 
-class DailyTemperatureByOneAdapter:
-    ListAdapter<DailyTemperatureByOneInfo, DailyTemperatureByOneAdapter.ViewHolder>(DiffCallback()) {
-/*
-
-class DailyTemperatureByOneAdapter(private val items: List<DailyTemperatureByOneInfo>
-) : RecyclerView.Adapter<DailyTemperatureByOneAdapter.ViewHolder>() {
-
-     class TemperatureAdapter : ListAdapter<TemperatureMeasurement, TemperatureAdapter.ViewHolder>(
-    DiffCallback()
-) {
-    * */
-    private var attentionColor:Int = 0
+class StatisticByOneAdapter(val list: List<StatisticByOneInfo>) :
+    ListAdapter<StatisticByOneInfo, StatisticByOneAdapter.ViewHolder>(DiffCallback()) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val timeValue: TextView = view.findViewById(R.id.time)
-        val temperatureValue: TextView = view.findViewById(R.id.temperature)
-        val medicineValue: TextView = view.findViewById(R.id.medicine)
+        val dateValue: TextView = view.findViewById(R.id.date)
+        val pickTemperature: TextView = view.findViewById(R.id.pick_temperature)
+        val countDays: TextView = view.findViewById(R.id.count_days)
+        val medicine1Value: TextView = view.findViewById(R.id.medicine1)
+        val medicine2Value: TextView = view.findViewById(R.id.medicine2)
+        val medicine3Value: TextView = view.findViewById(R.id.medicine3)
+        val medicine4Value: TextView = view.findViewById(R.id.medicine4)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        attentionColor = ContextCompat.getColor(parent.context,R.color.attention_color)
-
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.adapter_daily_temperature_by_one, parent, false)
+            .inflate(R.layout.adapter_statistic_by_one, parent, false)
         return ViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.timeValue.text = item.time.toString()
-        holder.temperatureValue.text = "${item.temperature} °C"
-        holder.medicineValue.text = item.medicine
-        if(item.medicine.isEmpty()){
-            holder.medicineValue.visibility = View.GONE
+        //val item = getItem(position)
+        val item: StatisticByOneInfo = list[position]
+        val dateShort = StringUtil.convertDateToShortNameString(item.date)
+        val currentYear = StringUtil.convertDateToYear(item.date)
+        holder.dateValue.text = "${dateShort}\n${currentYear}"
+        val temp = StringUtil.convertTemperatureToString(item.pickTemperature)
+        holder.pickTemperature.text = "Pick $temp °C"
+        holder.countDays.text = "${item.countDays} days"
+
+        if (item.medicines.isNotEmpty()) {
+            holder.medicine1Value.text = item.medicines[0]
+            holder.medicine1Value.visibility = View.VISIBLE
         } else {
-            if(item.moreThanUsual){
-                holder.temperatureValue.setTextColor(attentionColor)
-            }
+            holder.medicine1Value.visibility = View.GONE
+        }
+        if (item.medicines.size > 1) {
+            holder.medicine2Value.text = item.medicines[1]
+            holder.medicine2Value.visibility = View.VISIBLE
+        } else {
+            holder.medicine2Value.visibility = View.GONE
+        }
+        if (item.medicines.size > 2) {
+            holder.medicine3Value.text = item.medicines[2]
+            holder.medicine3Value.visibility = View.VISIBLE
+        } else {
+            holder.medicine3Value.visibility = View.GONE
+        }
+        if (item.medicines.size > 3) {
+            holder.medicine4Value.text = item.medicines[3]
+            holder.medicine4Value.visibility = View.VISIBLE
+        } else {
+            holder.medicine4Value.visibility = View.GONE
         }
     }
-    class DiffCallback : DiffUtil.ItemCallback<DailyTemperatureByOneInfo>() {
-        override fun areItemsTheSame(oldItem: DailyTemperatureByOneInfo, newItem: DailyTemperatureByOneInfo) =
-            oldItem.time == newItem.time
+
+    override fun getItemCount() = list.size
+
+    class DiffCallback : DiffUtil.ItemCallback<StatisticByOneInfo>() {
+        override fun areItemsTheSame(oldItem: StatisticByOneInfo, newItem: StatisticByOneInfo) =
+            oldItem.date == newItem.date
 
         @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: DailyTemperatureByOneInfo, newItem: DailyTemperatureByOneInfo) =
+        override fun areContentsTheSame(oldItem: StatisticByOneInfo, newItem: StatisticByOneInfo) =
             oldItem == newItem
-    }}
+    }
+}

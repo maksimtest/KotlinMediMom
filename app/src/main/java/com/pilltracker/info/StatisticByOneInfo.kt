@@ -1,10 +1,10 @@
 package com.pilltracker.info
 
-import java.time.LocalTime
+import java.time.LocalDate
 
-class DailyTemperatureByOneInfo(
-    val time: LocalTime,
-    val temperature: String,
-    val moreThanUsual: Boolean,
-    val medicine: String
+class StatisticByOneInfo(
+    val date: LocalDate,
+    val pickTemperature: Double,
+    val countDays: Int,
+    val medicines: List<String>
 )

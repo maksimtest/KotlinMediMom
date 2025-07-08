@@ -12,11 +12,11 @@ import com.pilltracker.entity.ChildEntity
 import com.pilltracker.entity.FactEntity
 import com.pilltracker.entity.MedicineEntity
 import com.pilltracker.entity.SicknessEntity
-import com.pilltracker.entity.UnitEntity
 import com.pilltracker.info.CategoryWithMedicineInfo
 import com.pilltracker.info.ChildInfo
 import com.pilltracker.info.DailyTemperatureListInfo
 import com.pilltracker.info.GroupedMedicineInfo
+import com.pilltracker.info.StatisticListInfo
 import com.pilltracker.util.StringUtil
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -39,19 +39,19 @@ class MainViewModel(private val repository: AppRepository) : ViewModel() {
     private var _dailyTemperatureList = MutableLiveData<List<DailyTemperatureListInfo>>()
     val dailyTemperatureList: LiveData<List<DailyTemperatureListInfo>> get() = _dailyTemperatureList
 
-//    private lateinit var childMap:Map<Int, ChildEntity>
+    lateinit var categoryList: List<CategoryEntity>
 
-    //private lateinit var childMap: Map<Int, ChildEntity>
-//    lateinit var medicineMap: Map<Int, MedicineEntity>
-//    private lateinit var unitMap: Map<Int, UnitEntity>
     lateinit var activeSicknessesMap: Map<Int, SicknessEntity>
-    private lateinit var medicineListForTemperature:List<MedicineEntity>
-//
+    private lateinit var medicineListForTemperature: List<MedicineEntity>
+
+    private val _statisticList = MutableLiveData<List<StatisticListInfo>>()
+    val statisticList: LiveData<List<StatisticListInfo>> get() = _statisticList
+
+    //
 //    //    private lateinit var activeSicknessesList: List<SicknessEntity>
 //    private lateinit var activeFactList: List<FactEntity>
     var needReadCatalogs = true
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun loadOnFirstActivity() {
         Log.d("MyTag", "loadOnFirstActivity(), needReadCatalogs: $needReadCatalogs")
         if (needReadCatalogs) {
@@ -64,172 +64,124 @@ class MainViewModel(private val repository: AppRepository) : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun loadIfNeeded() {
-        Log.d(
-            "MyTag",
-            "loadIfNeeded: _categoryWithMedicineList.value ${_categoryWithMedicineList.value}"
-        )
-        if (_categoryWithMedicineList.value == null) {
-            viewModelScope.launch {
-                load()
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun refresh() {
-        viewModelScope.launch {
-            load()
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun load() {
         Log.d("MyTag", "AppDatabase: load()")
+        val currentDate = LocalDate.now()
         val childrenList: List<ChildEntity> = repository.getChildren()
         childrenList.forEach { it.age = StringUtil.calculateAge(it.birthDate) }
-        val childMap:Map<Int, ChildEntity> = childrenList.associateBy { it.id }
+        val childMap: Map<Int, ChildEntity> = childrenList.associateBy { it.id }
         val medicineMap = repository.getAllMedicines().associateBy { it.id }
         val unitMap = repository.getUnits().associateBy { it.id }
         val activeFactList: List<FactEntity> = repository.getAllActiveFacts()
         val activeSicknessesList: List<SicknessEntity> = repository.getAllActiveSicknesses()
         activeSicknessesMap = activeSicknessesList.associateBy { it.childId }
 
+        categoryList = repository.getAllCategories()
+
         // childList
-        _childList.value = dataHelper.generateChildInfo(childrenList,activeSicknessesMap,activeFactList)
+        _childList.value =
+            dataHelper.generateChildInfo(
+                childrenList,
+                activeSicknessesMap,
+                activeFactList,
+                currentDate
+            )
 
         medicineListForTemperature = repository.getMedicineForTemperatures()
 
         _categoryWithMedicineList.value = repository.getCategoryWithMedicineList()
         _groupedMedicineList.value = repository.getGroupedMedicinesByCategoryList()
 
-        _dailyTemperatureList.value = dataHelper.generateGroupedFactByTemperature(
+        _dailyTemperatureList.value = dataHelper.generateFactByTemperature(
             activeFactList, childMap, medicineMap
+        )
+        _statisticList.value = dataHelper.generateStatisticInfo(
+            childMap,
+            medicineMap,
+            repository.getAllFacts(),
+            repository.getAllSicknesses()
         )
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun getChildrenInfoList(): List<ChildInfo> {
-//        val childList = ArrayList<ChildEntity>(childMap.values)
-//
-//        val ch = dataHelper.generateChildInfo(childList, activeSicknessesMap, activeFactList)
-//        ch.forEach { Log.d("MyTag", "mvm.getChildrenInfoList(), return: $it") }
-//        return ch
-//    }
-    fun getMedicineForTemperatures():List<MedicineEntity>{
-        Log.d("MyTag", "call getMedicineForTemperatures, medicineListForTemperature: $medicineListForTemperature")
-        Log.d("MyTag", "call getMedicineForTemperatures, size: ${medicineListForTemperature.size}")
+    fun getMedicineForTemperatures(): List<MedicineEntity> {
         return medicineListForTemperature
     }
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun getDailyTemperatureList(): List<DailyTemperatureListInfo> {
-//        val childList = ArrayList<ChildEntity>(childMap.values)
-//
-//        val ch = dataHelper.generateGroupedFactByTemperature(
-//            childList,
-//            activeSicknessesMap,
-//            activeFactList
-//        )
-//        ch.forEach { Log.d("MyTag", "mvm.getChildrenInfoList(), return: $it") }
-//        return ch
-//    }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun updateCategory(category: CategoryEntity) {
         viewModelScope.launch {
-            if (category.id == 0) {
-                repository.insertCategory(category)
-            } else {
-                repository.updateCategory(category)
-            }
+            repository.updateCategory(category)
             load()
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateMedicine(medicine: MedicineEntity) {
+        viewModelScope.launch {
+            repository.updateMedicine(medicine)
+            load()
+        }
+    }
+
     fun updateChild(childInfo: ChildInfo) {
         Log.d(
             "MyTag",
-            "mvm.updateChild()_0[101]: child $childInfo"
+            "mvm.updateChild()_0: child $childInfo"
         )
         var childEntity = ChildEntity(
             childInfo.id,
             childInfo.name,
             childInfo.age,
             childInfo.weight,
-            StringUtil.convertDateFromString(childInfo.birthDate),
-            childInfo.photo
+            StringUtil.convertDateFromFulString(childInfo.birthDate),
+            childInfo.photoInt,
+            childInfo.photoUri
         )
         viewModelScope.launch {
-            if (childEntity.id == 0) {
-                val newId: Long = repository.insertChild(childEntity)
-//                childEntity.id = newId.toInt()
-//                childInfo.id = newId.toInt()
-                Log.d("MyTag", "mvm.updateChild()_1[102]: insertChild, id ${newId.toInt()}")
-
-            } else {
-                repository.updateChild(childEntity)
-                Log.d("MyTag", "mvm.updateChild()_2[103]: updateChild")
-            }
+            repository.updateChild(childEntity)
             load()
-//            val childrenList: List<ChildEntity> = repository.getChildren()
-//            childrenList.forEach { Log.d("MyTag", "mvm.updateChild()_3[104]: childrenList: $it ") }
-//
-//            childrenList.forEach { it.age = StringUtil.calculateAge(it.birthDate) }
-//
-//            childrenList.forEach { Log.d("MyTag", "updateChild()_4[105], childrenList.child: $it") }
-//            childMap = childrenList.associateBy { it.id }
-//            Log.d("MyTag", "updateChild()_5_[106], childMap =...")
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun updateFact(fact: FactEntity) {
-        Log.d("MyTag", "mvm.updateFact(), fact: $fact")
+        Log.d("MyTag", "mvm.updateFact()_1, fact: $fact")
         viewModelScope.launch {
             val childId = fact.childId
-            val sicknessEntity = activeSicknessesMap.get(childId)
-            var sicknessId: Int? = null
-            if (sicknessEntity == null) {
-                val sickness =
-                    SicknessEntity(0, childId, LocalDate.now(), LocalDate.now(), false)
-                sicknessId = repository.insertSickness(sickness).toInt()
-            } else {
-                sicknessId = sicknessEntity.id
+            var sickness = activeSicknessesMap.get(childId)
+
+            if (sickness == null) {
+                val newSickness =
+                    SicknessEntity(0, childId, fact.date, fact.date, false)
+                Log.d("MyTag", "mvm.updateFact()_2, create Sickness $newSickness")
+                repository.insertSickness(newSickness)
             }
+            sickness = repository.getAllActiveSicknesses().filter { it.childId == childId }[0]
+            Log.d("MyTag", "mvm.updateFact()_3, founded Sickness $sickness")
             val newFact = FactEntity(
                 fact.id,
                 fact.childId,
                 fact.temperature,
                 fact.moreThanUsual,
                 fact.medicineId,
-                sicknessId,
+                sickness?.id,
                 fact.temperatureMode,
                 fact.date,
                 fact.time
             )
-            if (fact.id == 0) {
-                Log.d("MyTag", "MVM.updateFact_1 before insert, fact $fact")
-                repository.insertFact(newFact)
-            } else {
-                Log.d("MyTag", "MVM.updateFact_2 before update, fact $fact")
-                repository.updateFact(newFact)
-            }
-
+            repository.updateFact(newFact)
+            Log.d("MyTag", "updateFact()_end, created newFact $newFact")
             load()
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun setHealthyForChild(childId: Int) {
+    fun setHealthyForChild(childId: Int, finishedDate: LocalDate) {
+        Log.d("MyTag", "mvm.setHealthyForChild_1(childId: $childId, finishedDate: $finishedDate")
         viewModelScope.launch {
             val item = repository.getActiveSicknessByChild(childId)
             if (item == null) {
-                Log.d("MyTag", "!! AOAO !!")
+                Log.d("MyTag", "mvm.setHealthyForChild_2()!!!!!!!!!!!!!!!!!!!!!!!!!! AOAO !!")
             } else {
                 val sickness =
-                    SicknessEntity(item.id, item.childId, item.dateStart, LocalDate.now(), true)
+                    SicknessEntity(item.id, item.childId, item.dateStart, finishedDate, true)
+                Log.d("MyTag", "mvm.setHealthyForChild_3, before update updateSickness: $sickness")
                 repository.updateSicknesses(sickness)
             }
             load()

@@ -1,5 +1,6 @@
 package com.pilltracker.data
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -15,6 +16,8 @@ import com.pilltracker.info.DailyTemperatureByDayInfo
 import com.pilltracker.info.DailyTemperatureByOneInfo
 import com.pilltracker.info.DailyTemperatureListInfo
 import com.pilltracker.info.GroupedMedicineInfo
+import com.pilltracker.info.StatisticByOneInfo
+import com.pilltracker.info.StatisticListInfo
 import com.pilltracker.util.StringUtil
 import java.time.LocalDate
 import kotlin.Int
@@ -23,7 +26,7 @@ import kotlin.collections.component2
 import kotlin.collections.iterator
 
 class DataHelper {
-    fun groupMedicinesByCategory(
+    fun generateMedicinesByCategory(
         medicines: List<MedicineWithCategory>
     ): List<GroupedMedicineInfo> {
         val result = mutableListOf<GroupedMedicineInfo>()
@@ -33,18 +36,26 @@ class DataHelper {
         for ((category, meds) in grouped) {
             result.add(GroupedMedicineInfo.Category(category))
             meds.forEach {
-                result.add(GroupedMedicineInfo.Medicine(it.name, it.photo, it.description))
+                result.add(
+                    GroupedMedicineInfo.Medicine(
+                        it.name,
+                        it.photoInt,
+                        it.photoUri,
+                        it.description
+                    )
+                )
             }
         }
 
         return result
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("DefaultLocale")
     fun generateChildInfo(
         childList: List<ChildEntity>,
         sicknessesMap: Map<Int, SicknessEntity>,
-        factList: List<FactEntity>
+        factList: List<FactEntity>,
+        currentDate: LocalDate
     ): List<ChildInfo> {
         val result = mutableListOf<ChildInfo>()
         childList.forEach {
@@ -52,13 +63,16 @@ class DataHelper {
             val currentSicknesses = sicknessesMap.get(childId)
             var healthy = true
             var sickDate = ""
-            var sicknessId:Int? = null
+            var state = ""
+            var sicknessId: Int? = null
             if (currentSicknesses != null) {
                 healthy = false
                 sicknessId = currentSicknesses.id
-                sickDate = StringUtil.convertDateToShortString(currentSicknesses.dateStart)
+                sickDate = StringUtil.convertDateToShortNameString(currentSicknesses.dateStart)
+                state =
+                    "${StringUtil.calculateDays(currentSicknesses.dateStart, currentDate) + 1} days"
             }
-            val birthDay = StringUtil.convertDateToString(it.birthDate)
+            val birthDay = StringUtil.convertDateToFullString(it.birthDate)
             //
             val sortedFactList =
                 factList.filter { it1 -> it1.temperatureMode && it1.childId == childId }
@@ -66,13 +80,14 @@ class DataHelper {
                     .sortedByDescending { it.time }
             factList.forEach { Log.d("MyTag", "generateChildInfo, factList: $it") }
             sortedFactList.forEach { Log.d("MyTag", "generateChildInfo, sortedFactList: $it") }
-            var temperature: Double = if(sortedFactList.isEmpty()) 0.0 else sortedFactList[0].temperature
-
+            var temperature: Double =
+                if (sortedFactList.isEmpty()) 0.0 else sortedFactList[0].temperature
+            //val temp = String.format("%.1f", temperature)
             result.add(
                 ChildInfo(
-                    it.id, it.name, it.age, it.weight, birthDay, it.photo,
+                    it.id, it.name, it.age, it.weight, birthDay, it.photoInt, it.photoUri,
                     healthy, sickDate, sicknessId, temperature,
-                    ""// state
+                    state
                 )
             )
         }
@@ -90,7 +105,8 @@ class DataHelper {
     val time: LocalTime
 )
     * */
-    fun generateGroupedFactByTemperature(
+    @SuppressLint("DefaultLocale")
+    fun generateFactByTemperature(
         activeFactList: List<FactEntity>,
         childMap: Map<Int, ChildEntity>,
         medicineMap: Map<Int, MedicineEntity>
@@ -99,88 +115,120 @@ class DataHelper {
 
         return facts.filter { it.temperatureMode }.groupBy { it.childId }
             .mapNotNull { (childId, factsByChild) ->
-                    val child: ChildEntity = childMap?.get(childId) ?: return@mapNotNull null
-                    val daysList: List<DailyTemperatureByDayInfo> = factsByChild.groupBy { it.date }
-                        .map {/*3*/ (date, factsByDate) ->
-                            val oneDaysList: List<DailyTemperatureByOneInfo> =
-                                factsByDate.map {/*5*/ fact ->
-                                    DailyTemperatureByOneInfo(
-                                        time = fact.time,
-                                        temperature = fact.temperature.toString(),
-                                        moreThanUsual = fact.moreThanUsual,
-                                        medicine = medicineMap.get(fact.medicineId)?.name ?: ""
-                                    )
-                                }/*5*/.sortedBy { it.time }
+                val child: ChildEntity = childMap[childId] ?: return@mapNotNull null
+                val daysList: List<DailyTemperatureByDayInfo> = factsByChild.groupBy { it.date }
+                    .map {/*3*/ (date, factsByDate) ->
+                        val countDays = 0
+                        val oneDaysList: List<DailyTemperatureByOneInfo> =
+                            factsByDate.map {/*5*/ fact ->
+                                val temp = StringUtil.convertTemperatureToString(fact.temperature)
+                                DailyTemperatureByOneInfo(
+                                    time = fact.time,
+                                    temperature = temp,
+                                    moreThanUsual = fact.moreThanUsual,
+                                    medicine = medicineMap.get(fact.medicineId)?.name ?: ""
+                                )
+                            }/*5*/.sortedBy { it.time }
 
-                            DailyTemperatureByDayInfo(
-                                date = date,
-                                list = oneDaysList
-                            )
-                        }.sortedBy { it.date }
-                    DailyTemperatureListInfo(
-                        child = child,
-                        list = daysList
-                    )
+                        DailyTemperatureByDayInfo(
+                            date = date,
+                            countDays = countDays,
+                            list = oneDaysList
+                        )
+                    }.sortedBy { it.date }
+                var countDays = 0
+                daysList.forEach { it.countDays = ++countDays }
+                DailyTemperatureListInfo(
+                    child = child,
+                    list = daysList
+                )
             }//1
-
     }//0
 
-//                daysList.map { (date, factsByDate) ->
-//                    val factByDay = factsByDate.map { fact ->
-//                        DailyTemperatureByOneInfo(
-//                            time = fact.time,
-//                            temperature = fact.temperature.toString(),
-//                            moreThanUsual = fact.moreThanUsual,
-//                            medicine = fact.medicineName
+    fun generateStatisticInfo(
+        childMap: Map<Int, ChildEntity>,
+        medicineMap: Map<Int, MedicineEntity>,
+        facts: List<FactEntity>,
+        sicknesses: List<SicknessEntity>
+    ): List<StatisticListInfo> {//0
+        // ?
+        val sicknessList = ArrayList(sicknesses)
+        Log.d("MyTag", "generateStatistic()_1, childMap ${childMap.size}, medicineMap ${medicineMap.size}")
+        Log.d("MyTag", "generateStatistic()_1, facts ${facts.size}, sicknesses ${sicknesses.size}")
+        facts.forEach {  Log.d("MyTag", "generateStatistic()_1, factId: ${it.id}, medicineId ${it.medicineId}")}
+
+        val result = sicknessList.groupBy { it.childId }
+            //return sicknessList.groupBy { it.childId }
+            .mapNotNull { (childId, sicknessesByChild) ->
+                val child: ChildEntity = childMap.get(childId) ?: return@mapNotNull null
+
+                Log.d("MyTag", "generateStatistic(),groupBy_2.1, childId=${childId} child=${child} ")
+                Log.d("MyTag", "generateStatistic(),groupBy_2.2, sicknessesByChild ${sicknessesByChild.size} ")
+
+                val list: List<StatisticByOneInfo> = sicknessesByChild.map {
+                    var maxTemperature = 36.6
+                    val sicknessId = it.id
+                    val medicinesSet = mutableSetOf<String>()
+                    facts.filter { it.sicknessId == sicknessId }.forEach {
+                        if (it.temperature > maxTemperature) maxTemperature = it.temperature
+                        Log.d("MyTag", "generateStatistic(),groupBy_3.1, facts: fact.Id ${it.id}, fact.medicineId ${it.medicineId}")
+                        if (it.medicineId != null) {
+                            val medicine = medicineMap[it.medicineId]
+                            Log.d("MyTag", "generateStatistic(),groupBy_3.2, medicine ${medicine}")
+                            val name = medicine?.name ?: ""
+                            Log.d("MyTag", "generateStatistic(),groupBy_3.3, name ${name}")
+                            medicinesSet.add(name)
+                        }
+                    }
+
+                    val countDays = StringUtil.calculateDays(it.dateStart, it.dateEnd)+1
+                    val medicinesList =ArrayList(medicinesSet)
+                    Log.d("MyTag", "generateStatistic(),groupBy_4.1, medicinesList $medicinesList")
+                    medicinesList.forEach { Log.d("MyTag", "groupBy_4.2, it $it") }
+                    StatisticByOneInfo(
+                        it.dateStart,
+                        maxTemperature,
+                        countDays,
+                        medicinesList
+                    )
+                }.sortedBy { it.date }
+                Log.d("MyTag", "generateStatistic(),groupBy_5.1, list ${list.size} ")
+                list.forEach { Log.d("MyTag", "generateStatistic(),groupBy_5.2, list: $it ")}
+//                val list: List<StatisticByOneInfo> = factsByChild.groupBy { it.date }
+//                    .map {/*3*/ (date, factsByDate) ->
+//                        val countDays = 0
+//                        val oneDaysList: List<DailyTemperatureByOneInfo> =
+//                            factsByDate.map {/*5*/ fact ->
+//                                DailyTemperatureByOneInfo(
+//                                    time = fact.time,
+//                                    temperature = fact.temperature.toString(),
+//                                    moreThanUsual = fact.moreThanUsual,
+//                                    medicine = medicineMap.get(fact.medicineId)?.name ?: ""
+//                                )
+//                                StatisticByOneInfo(
+//
+//
+//                                )
+//                            }/*5*/.sortedBy { it.time }
+//
+//                        DailyTemperatureByDayInfo(
+//                            date = date,
+//                            countDays = countDays,
+//                            list = oneDaysList
 //                        )
-//                    }.sortedBy { it.time }
-//
-//                    DailyTemperatureByDayInfo(
-//                        date = date,
-//                        list = factByDay
-//                    )
-//                }.sortedBy { it.date }
+//                    }.sortedBy { it.date }
+//                var countDays = 0
+//                daysList.forEach { it.countDays = ++countDays }
+                StatisticListInfo(
+                    child = child,
+                    list = list
+                )
+            }//1
+
+        return result
+    }//0
 
 
-//    fun groupMedicinesByCategory1(
-//        list: List<FactEntity>
-//    ): List<DailyTemperatureListInfo> {
-//        val result = mutableListOf<DailyTemperatureListInfo>()
-//
-//        val grouped = list.filter { it.temperatureMode }.groupBy { it.childId }
-//
-//        for ((child, factList) in grouped) {
-//
-//            val dailyTemperature =
-//
-//                result.add(GroupedMedicineInfo.Category(category))
-//            meds
-//            meds.forEach {
-//                result.add(GroupedMedicineInfo.Medicine(it.name, it.photo, it.description))
-//            }
-//        }
-//        return result
-//    }
-    /*
-    class DailyTemperatureByOneInfo(
-        val time: LocalTime,
-        val temperature: String,
-        val moreThanUsual: Boolean,
-        val medicine: String
-    )
-    class DailyTemperatureByDayInfo(
-        val date: LocalDate,
-        val list: List<DailyTemperatureByOneInfo>
-    )
-    class DailyTemperatureListInfo(
-        val child: ChildInfo,
-        val list: List<DailyTemperatureByDayInfo>
-    )
-    * */
-
-
-    //@RequiresApi(Build.VERSION_CODES.O)
-    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun initDefaultDatabase(db: AppDatabase) {
         if (!db.medicineDao().getAll().isEmpty()) {
             Log.d("MyTag", "skipped initDefaultDatabase()")
@@ -194,8 +242,9 @@ class DataHelper {
 
         val photo1 = R.drawable.ic_boy
         val photo2 = R.drawable.ic_girl
+        val photo3 = R.drawable.ic_drug
 
-        val unitEntity1 = UnitEntity(0, "шт.")
+        val unitEntity1 = UnitEntity(0, "kol.")
         val unitEntity2 = UnitEntity(0, "спрей")
         val unitEntity3 = UnitEntity(0, "капли")
         unitDao.insert(unitEntity1)
@@ -222,19 +271,17 @@ class DataHelper {
 
         //
         val medicineEntity1 =
-            MedicineEntity(0, "Paracetamol", categoryId1, unitId1, photo1)
+            MedicineEntity(0, "Paracetamol", categoryId1, unitId1, photo3, null)
         val medicineEntity2 =
-            MedicineEntity(0, "Panadol", categoryId1, unitId1, photo1)
+            MedicineEntity(0, "Panadol", categoryId1, unitId1, photo3, null)
         val medicineEntity3 =
-            MedicineEntity(0, "Ibuprofen", categoryId1, unitId1, photo2)
+            MedicineEntity(0, "Ibuprofen", categoryId1, unitId1, photo3, null)
         val medicineEntity4 =
-            MedicineEntity(0, "Sofiest", categoryId2, unitId1, photo1)
+            MedicineEntity(0, "Sofiest", categoryId2, unitId1, photo3, null)
         val medicineEntity5 =
-            MedicineEntity(0, "Синупрет", categoryId3, unitId1, photo2)
+            MedicineEntity(0, "Izofret", categoryId3, unitId1, photo3, null)
         val medicineEntity6 =
-            MedicineEntity(0, "Ізофр", categoryId3, unitId1, photo1)
-        val medicineEntity7 =
-            MedicineEntity(0, "Софреніт", categoryId3, unitId1, photo1)
+            MedicineEntity(0, "Sofrenit", categoryId3, unitId1, photo3, null)
 
         medicineDao.insert(medicineEntity1)
         medicineDao.insert(medicineEntity2)
@@ -242,19 +289,12 @@ class DataHelper {
         medicineDao.insert(medicineEntity4)
         medicineDao.insert(medicineEntity5)
         medicineDao.insert(medicineEntity6)
-        medicineDao.insert(medicineEntity7)
         //
-        val d1 = LocalDate.of(2022, 7, 4)
-        val d2 = LocalDate.of(2023, 7, 23)
-        val d3 = LocalDate.of(2022, 9, 18)
+        val d1 = LocalDate.of(2020, 7, 4)
 
-        val child1 = ChildEntity(0, "Igor", 5, 4, d1, photo1)
-        val child2 = ChildEntity(0, "Mar`na", 6, 4, d2, photo1)
-        val child3 = ChildEntity(0, "Ipolit", 4, 4, d3, photo1)
+        val child1 = ChildEntity(0, "John", 5, 21, d1, photo1, null)
 
         childDao.insert(child1)
-        childDao.insert(child2)
-        childDao.insert(child3)
         //
         val unitSize = unitDao.getAll().size
         val medSize = medicineDao.getAll().size

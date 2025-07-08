@@ -26,7 +26,7 @@ class DailyTemperatureByOneAdapter(private val items: List<DailyTemperatureByOne
     private var attentionColor:Int = 0
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val timeValue: TextView = view.findViewById(R.id.time)
+        val timeValue: TextView = view.findViewById(R.id.current_date)
         val temperatureValue: TextView = view.findViewById(R.id.temperature)
         val medicineValue: TextView = view.findViewById(R.id.medicine)
     }
@@ -39,10 +39,11 @@ class DailyTemperatureByOneAdapter(private val items: List<DailyTemperatureByOne
         return ViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.timeValue.text = item.time.toString()
+        //val temp = String.format("%.1f", item.temperature)
         holder.temperatureValue.text = "${item.temperature} °C"
         holder.medicineValue.text = item.medicine
         if(item.medicine.isEmpty()){

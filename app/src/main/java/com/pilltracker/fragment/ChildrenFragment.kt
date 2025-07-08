@@ -3,7 +3,6 @@ package com.pilltracker.fragment
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +26,8 @@ import com.pilltracker.databinding.FragmentChildrenBinding
 import com.pilltracker.data.MainViewModel
 import com.pilltracker.data.UserSettings
 import com.pilltracker.entity.FactEntity
+import java.time.LocalDate
+import java.time.LocalTime
 import kotlin.Int
 import kotlin.getValue
 
@@ -42,7 +41,7 @@ class ChildrenFragment : Fragment() {
 
     //private lateinit var imageViewOnAddDialog: ImageView
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
-    private var imageHolder = ImageHolder()
+    private lateinit var imageHolder: ImageHolder
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val userSettings: UserSettings by lazy {
@@ -57,11 +56,12 @@ class ChildrenFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         healthyChildrenRV = binding.healthyChildrenList
         sickedChildrenRV = binding.sickChildrenList
+
+        imageHolder = ImageHolder(requireContext())
 
 
         //db = AppDatabase.getInstance(requireContext().applicationContext)
@@ -125,64 +125,35 @@ class ChildrenFragment : Fragment() {
             }
 
         binding.openAddDialog.button.setOnClickListener {
+            imageHolder.init()
             openAddChildDialog(requireContext(), galleryLauncher, imageHolder, viewLifecycleOwner)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onResume() {
-        super.onResume()
-        val d = userSettings.selectedDate
-        val t = userSettings.selectedTime
-        Toast.makeText(requireContext(), "Current date $d, time $t", Toast.LENGTH_SHORT).show()
-    }
 
-//    @SuppressLint("NotifyDataSetChanged")
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun updateChildrenRV() {
-//        val childrenList = mainViewModel.getChildrenInfoList()
-//
-//        val healthyChildrenList = childrenList.filter { it.healthy }
-//        val sickedChildrenList = childrenList.filter { !it.healthy }
-//
-//        adapterForHealhty.updateList(healthyChildrenList)
-//        adapterForSick.updateList(sickedChildrenList)
-//        Log.d("MyTag", "ChFr.updateChildrenRV()_finish[202]")
-//    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     fun openSetSickDialog(child: ChildInfo) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_set_sick, null)
-        val currentDate = userSettings.selectedDate
-        val currentTime = userSettings.selectedTime
-        val sicknessExist: Boolean = child.sicknessId != null
+
         DialogHelper().openSetSickDialog(
             requireContext(),
-            dialogView,
             child,
-            currentDate,
-            currentTime,
+            LocalDate.now(),
             ::updateFact,
             ::setHealthyForChild
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun updateFact(fact: FactEntity) {
         mainViewModel.updateFact(fact)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun setHealthyForChild(childId: Int) {
-        mainViewModel.setHealthyForChild(childId)
+    fun setHealthyForChild(childId: Int, finishedDate: LocalDate) {
+        mainViewModel.setHealthyForChild(childId, finishedDate)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun saveChildToDB(child: ChildInfo) {
         mainViewModel.updateChild(child)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun openEditChildDialog(
         context: Context,
         child: ChildInfo,
@@ -190,10 +161,9 @@ class ChildrenFragment : Fragment() {
         vlc: LifecycleOwner
 
     ) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_add_child, null)
+        //val dialogView = layoutInflater.inflate(R.layout.dialog_add_child, null)
         DialogHelper().openAddAndEditChildDialog(
             context,
-            dialogView,
             imageHolder,
             child,
             true,
@@ -203,7 +173,6 @@ class ChildrenFragment : Fragment() {
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("NotifyDataSetChanged")
     private fun openAddChildDialog(
         context: Context,
@@ -211,10 +180,8 @@ class ChildrenFragment : Fragment() {
         imageHolder: ImageHolder,
         vlc: LifecycleOwner
     ) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_add_child, null)
         DialogHelper().openAddAndEditChildDialog(
             context,
-            dialogView,
             imageHolder,
             null,
             false,

@@ -8,6 +8,7 @@ import com.pilltracker.entity.FactEntity
 import com.pilltracker.entity.MedicineEntity
 import com.pilltracker.entity.SicknessEntity
 import com.pilltracker.entity.UnitEntity
+import com.pilltracker.info.GroupedMedicineInfo
 
 class AppRepository(private val db: AppDatabase) {
     val dataHelper = DataHelper()
@@ -15,35 +16,64 @@ class AppRepository(private val db: AppDatabase) {
     suspend fun insertUnit(unit: UnitEntity) = db.unitDao().insert(unit)
     suspend fun getUnits() = db.unitDao().getAll()
 
-    suspend fun insertCategory(category:CategoryEntity) = db.categoryDao().insert(category)
     suspend fun getAllCategories() = db.categoryDao().getAll()
-    suspend fun updateCategory(category:CategoryEntity) = db.categoryDao().update(category)
+    suspend fun getCategoryWithMedicineList() = db.categoryDao().getAllCategoryWithMedicinesInfo()
+    suspend fun updateCategory(item: CategoryEntity){
+        if(item.id == 0){
+            db.categoryDao().insert(item)
+        } else {
+            db.categoryDao().update(item)
+        }
+    }
 
-    suspend fun insertMedicine(medicine: MedicineEntity) = db.medicineDao().insert(medicine)
+    suspend fun updateMedicine(item: MedicineEntity) {
+        if (item.id == 0) {
+            db.medicineDao().insert(item)
+        } else {
+            db.medicineDao().update(item)
+        }
+    }
     suspend fun getAllMedicines() = db.medicineDao().getAll()
 
-    suspend fun insertSickness(item: SicknessEntity):Long = db.sicknessDao().insert(item)
-    suspend fun getActiveSicknessByChild(childId: Int) = db.sicknessDao().getActiveSicknessByChild(childId)
+    suspend fun insertSickness(item: SicknessEntity) = db.sicknessDao().insert(item)
+    suspend fun getActiveSicknessByChild(childId: Int) =
+        db.sicknessDao().getActiveSicknessByChild(childId)
+
     suspend fun getActiveSicknesses() = db.sicknessDao().getActiveSicknesses()
     suspend fun updateSicknesses(item: SicknessEntity) = db.sicknessDao().update(item)
     suspend fun getAllActiveSicknesses() = db.sicknessDao().getAllActiveSicknesses()
+    suspend fun getAllSicknesses() = db.sicknessDao().getAll()
 
-    suspend fun insertChild(child: ChildEntity):Long = db.childDao().insert(child)
-    suspend fun updateChild(child: ChildEntity) = db.childDao().update(child)
+    suspend fun updateChild(item: ChildEntity) {
+        if (item.id == 0) {
+            db.childDao().insert(item)
+        } else {
+            db.childDao().update(item)
+        }
+    }
+
     suspend fun getChildren() = db.childDao().getAll()
 
-    suspend fun getGroupedMedicinesByCategoryList() = DataHelper().groupMedicinesByCategory(
-        db.medicineDao().getAllWithMedicines()
-    )
-    suspend fun getMedicineForTemperatures(): List<MedicineEntity> = db.medicineDao().getMedicineForTemperatures()
-    suspend fun getCategoryWithMedicineList() = db.categoryDao().getAllCategoryWithMedicinesInfo()
+    // TODO need analyze and add description information
+    suspend fun getGroupedMedicinesByCategoryList():List<GroupedMedicineInfo> {
+        val medicinesList = db.medicineDao().getAllWithMedicines()
+        return DataHelper().generateMedicinesByCategory(medicinesList)
+    }
 
-    suspend fun insertFact(fact:FactEntity) = db.factDao().insert(fact)
-    suspend fun updateFact(fact:FactEntity) = db.factDao().update(fact)
+    suspend fun getMedicineForTemperatures(): List<MedicineEntity> =
+        db.medicineDao().getMedicineForTemperatures()
+
+    suspend fun updateFact(fact: FactEntity){
+        if(fact.id==0){
+            db.factDao().insert(fact)
+        } else {
+            db.factDao().update(fact)
+        }
+    }
     suspend fun getAllActiveFacts() = db.factDao().getAllActiveFact()
+    suspend fun getAllFacts() = db.factDao().getAll()
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun initDefaultData() {
         DataHelper().initDefaultDatabase(db)
 

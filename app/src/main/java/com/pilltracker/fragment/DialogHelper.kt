@@ -4,9 +4,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -18,7 +18,6 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
-import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.drawable.toDrawable
@@ -37,6 +36,8 @@ import java.time.LocalTime
 import java.time.temporal.ChronoField
 import java.util.Locale
 import kotlin.Int
+import androidx.core.net.toUri
+import com.pilltracker.entity.CategoryEntity
 
 class DialogHelper {
     private var globalSpecifiedHrs: Int = 0
@@ -46,19 +47,17 @@ class DialogHelper {
     private var globalSpecifiedDay: Int = 0
     private var globalSpecifiedMonth: Int = 0
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private var globalSpecifiedDate: LocalDate = LocalDate.now()
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun openSetSickDialog(
         context: Context,
-        dialogView: View,
         child: ChildInfo,
         currentDate: LocalDate,
-        currentTime: LocalTime,
         updateFact: (FactEntity) -> Unit,
-        setHealthyForChild: (Int) -> Unit
+        setHealthyForChild: (Int, LocalDate) -> Unit
     ) {
+        val currentTime = LocalTime.now()
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_set_sick, null)
         //
         val childNameView = dialogView.findViewById<TextView>(R.id.child_name)
         val childPhotoView = dialogView.findViewById<ImageView>(R.id.child_photo)
@@ -70,12 +69,12 @@ class DialogHelper {
         val spinnerDecimal = dialogView.findViewById<Spinner>(R.id.spinner_decimal)
         val spinnerDay = dialogView.findViewById<Spinner>(R.id.spinner_days)
         val spinnerMonth = dialogView.findViewById<Spinner>(R.id.spinner_months)
-        val addTemperatureBtn = dialogView.findViewById<ImageView>(R.id.temperature_btn)
+        val saveTemperatureBtn =
+            dialogView.findViewById<ConstraintLayout>(R.id.save_temperature_btn)
         val reduceDateBtn = dialogView.findViewById<ImageView>(R.id.reduce_date_btn)
         val increaseDateBtn = dialogView.findViewById<ImageView>(R.id.increase_date_btn)
         val healthyBtn = dialogView.findViewById<ImageView>(R.id.healthy_btn)
-        val cancelBtn = dialogView.findViewById<ImageView>(R.id.cancel_btn)
-        val creationSicknessBtn = dialogView.findViewById<ImageView>(R.id.creation_sickness_btn)
+        val creationSicknessBtn = dialogView.findViewById<ConstraintLayout>(R.id.save_sickness_btn)
         val sicknessLayout = dialogView.findViewById<ConstraintLayout>(R.id.sickness_layout)
         val sicknessCreationLayout =
             dialogView.findViewById<ConstraintLayout>(R.id.creation_sickness_layout)
@@ -120,16 +119,21 @@ class DialogHelper {
         creationSicknessBtn.setOnClickListener {
             changeVisibilityOnSetSickDialog(1, sicknessCreationLayout, sicknessLayout, timeView)
         }
-        globalSpecifiedMonth = currentDate.monthValue+1
+        globalSpecifiedMonth = currentDate.monthValue + 1
         globalSpecifiedDay = currentDate.dayOfMonth
+        Log.d(
+            "MyTag",
+            "openSetSickDialog(), globalSpecifiedMonth $globalSpecifiedMonth, globalSpecifiedDay $globalSpecifiedDay"
+        )
 
-        addTemperatureBtn.setOnClickListener {
+        saveTemperatureBtn.setOnClickListener {
             val sicknessId = child.sicknessId
             val temper: Double =
                 globalSpecifiedWhole + (globalSpecifiedDecimal.toDouble() / 10).toDouble()
             val time = LocalTime.of(globalSpecifiedHrs, globalSpecifiedMinutes, 0)
             val medicineId = null;
-            val date = LocalDate.of(2025, globalSpecifiedMonth, globalSpecifiedDay)
+            val date = LocalDate.of(LocalDate.now().year, globalSpecifiedMonth, globalSpecifiedDay)
+            Log.d("MyTag", "openSetSickDialog(), Btn.setOnClickListener, date $date")
             val fact = FactEntity(
                 0,
                 child.id,
@@ -157,19 +161,20 @@ class DialogHelper {
             updateFact(fact)
             dialog.dismiss()
         }
+        reduceDateBtn.visibility = View.INVISIBLE
         reduceDateBtn.setOnClickListener {
             spinnerDay.setSelection(spinnerDay.selectedItemPosition - 1)
             // TODO if first day-need reduce month
         }
+        increaseDateBtn.visibility = View.INVISIBLE
         increaseDateBtn.setOnClickListener {
             spinnerDay.setSelection(spinnerDay.selectedItemPosition + 1)
             // TODO if last dat-need increase month
         }
         healthyBtn.setOnClickListener {
-            setHealthyForChild(child.id)
+            setHealthyForChild(child .id, currentDate)
             dialog.dismiss()
         }
-        cancelBtn.setOnClickListener { dialog.dismiss() }
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         dialog.show()
     }
@@ -185,20 +190,17 @@ class DialogHelper {
         textView.visibility = if (sicknessId == null) View.GONE else View.VISIBLE
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun fillTimeSpinner(
         context: Context,
         timeView: TextView,
         spinnerHrs: Spinner, spinnerMinutes: Spinner,
         specifiedTime: LocalTime
     ) {
-        val hrsPeriod = (0..95).map {
-            var value = it % 24
-            if (value < 10) "0$value" else value
+        val hrsPeriod = (0..24).map {
+            if (it < 10) "0$it" else it
         }
-        val minutesPeriod = (0..179).map {
-            var value = it % 60
-            if (value < 10) "0$value" else value
+        val minutesPeriod = (0..59).map {
+            if (it < 10) "0$it" else it
         }
         val specifiedHrs = specifiedTime.get(ChronoField.HOUR_OF_DAY)
         val specifiedMinute = specifiedTime.get(ChronoField.MINUTE_OF_HOUR)
@@ -206,7 +208,7 @@ class DialogHelper {
             ArrayAdapter(context, R.layout.spinner_temperature_figure, hrsPeriod)
         adapter1.setDropDownViewResource(R.layout.spinner_temperature_dropdown)
         spinnerHrs.adapter = adapter1
-        spinnerHrs.setSelection(24 + specifiedHrs)
+        spinnerHrs.setSelection(specifiedHrs)
 
         spinnerHrs.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -227,7 +229,7 @@ class DialogHelper {
             ArrayAdapter(context, R.layout.spinner_temperature_figure, minutesPeriod)
         adapter2.setDropDownViewResource(R.layout.spinner_temperature_dropdown)
         spinnerMinutes.adapter = adapter2
-        spinnerMinutes.setSelection(60 + specifiedMinute)
+        spinnerMinutes.setSelection(specifiedMinute)
 
         spinnerMinutes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -246,13 +248,13 @@ class DialogHelper {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun openSimpleTimeDialog(
         context: Context,
-        dialogView: View,
         timeViewOuter: TextView?,
         specifiedTime: LocalTime
     ) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_simple_time, null)
+
         val spinnerHrs = dialogView.findViewById<Spinner>(R.id.spinner_time_hrs)
         val spinnerMinutes = dialogView.findViewById<Spinner>(R.id.spinner_time_minutes)
         var timeView = timeViewOuter
@@ -261,17 +263,12 @@ class DialogHelper {
         }
         val defaultTimeValue = timeView.text.toString()
         val okBtn = dialogView.findViewById<ImageView>(R.id.ok_btn)
-        val cancelBtn = dialogView.findViewById<ImageView>(R.id.cancel_btn)
 
         val dialogBuilder = AlertDialog.Builder(context)
         dialogBuilder.setView(dialogView)
         val dialog = dialogBuilder.create()
 
         okBtn.setOnClickListener {
-            dialog.dismiss()
-        }
-        cancelBtn.setOnClickListener {
-            timeView.text = defaultTimeValue
             dialog.dismiss()
         }
         fillTimeSpinner(context, timeView, spinnerHrs, spinnerMinutes, specifiedTime)
@@ -281,13 +278,13 @@ class DialogHelper {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun openSimpleTemperature(
         context: Context,
-        dialogView: View,
         temperatureView: TextView,
         specifiedTemperature: Double
     ) {
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.dialog_simple_temperature, null)
         val dialogBuilder = AlertDialog.Builder(context)
         dialogBuilder.setView(dialogView)
         val dialog = dialogBuilder.create()
@@ -295,15 +292,10 @@ class DialogHelper {
         val spinnerWhole = dialogView.findViewById<Spinner>(R.id.spinner_whole)
         val spinnerDecimal = dialogView.findViewById<Spinner>(R.id.spinner_decimal)
         val okBtn = dialogView.findViewById<ImageView>(R.id.ok_btn)
-        val cancelBtn = dialogView.findViewById<ImageView>(R.id.cancel_btn)
 
         okBtn.setOnClickListener {
             val value = "${globalSpecifiedWhole}.${globalSpecifiedDecimal}"
             temperatureView.text = value
-            dialog.dismiss()
-        }
-        cancelBtn.setOnClickListener {
-            temperatureView.text = "$specifiedTemperature"
             dialog.dismiss()
         }
         fillTemperatureSpinner(context, spinnerWhole, spinnerDecimal)
@@ -312,16 +304,19 @@ class DialogHelper {
         dialog.show()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun openSimpleMedicineByAntipyretic(
+    fun openSimpleStringListDialog(
         context: Context,
-        dialogView: View,
         medicineView: TextView,
         medicineList: List<String>
     ) {
-        val dialogBuilder = AlertDialog.Builder(context)
-        dialogBuilder.setView(dialogView)
-        val dialog = dialogBuilder.create()
+        //val dialogBuilder = AlertDialog.Builder(context)
+        //dialogBuilder.setView(dialogView)
+        //val dialog = dialogBuilder.create()
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_simple_medicine, null)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .create()
         //
         val medicineRV = dialogView.findViewById<RecyclerView>(R.id.medicine_list)
         //val okBtn = dialogView.findViewById<ImageView>(R.id.ok_btn)
@@ -345,8 +340,6 @@ class DialogHelper {
                 textView.text = medicineList[position]
                 textView.setOnClickListener {
                     medicineView.text = textView.text
-                    //textView.text =
-                    //callback(textView.text.toString())
                     dialog.dismiss()
                 }
             }
@@ -368,7 +361,6 @@ class DialogHelper {
         dialog.show()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun fillTemperatureSpinner(
         context: Context,
         spinnerWhole: Spinner, spinnerDecimal: Spinner,
@@ -384,7 +376,7 @@ class DialogHelper {
         spinnerWhole.setSelection(1)
 
         val adapter2 =
-            ArrayAdapter(context, R.layout.spinner_temperature_figure, decimalNumbers)
+            ArrayAdapter(context, R.layout.spinner_temperature_decimal, decimalNumbers)
         adapter2.setDropDownViewResource(R.layout.spinner_temperature_dropdown)
         spinnerDecimal.adapter = adapter2
         spinnerDecimal.setSelection(6)
@@ -414,7 +406,6 @@ class DialogHelper {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun fillDateSpinner(
         context: Context,
         spinnerDay: Spinner,
@@ -467,10 +458,8 @@ class DialogHelper {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun openAddAndEditChildDialog(
         context: Context,
-        dialogView: View,
         imageHolder: ImageHolder,
         childParameter: ChildInfo?,
         editMode: Boolean,
@@ -478,6 +467,8 @@ class DialogHelper {
         galleryLauncher: ActivityResultLauncher<String>,
         vlc: LifecycleOwner
     ) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_child, null)
+
         var child = childParameter
         val nowTime = StringUtil.convertDateToFullString(LocalDate.now())
         if (child == null) child =
@@ -486,7 +477,7 @@ class DialogHelper {
 
         val datePicker = dialogView.findViewById<DatePicker>(R.id.child_date)
         val nameView = dialogView.findViewById<EditText>(R.id.child_name)
-        val weightView = dialogView.findViewById<TextView>(R.id.child_weight)
+        val weightView = dialogView.findViewById<EditText>(R.id.child_weight)
         //val photoView = ""//dialogView.findViewById<ImageView>(R.id.choosePhoto)
         val imageView = dialogView.findViewById<ImageView>(R.id.child_image)
         val imageView1 = dialogView.findViewById<ImageView>(R.id.child_image1)
@@ -498,26 +489,28 @@ class DialogHelper {
         val saveButton = dialogView.findViewById<ConstraintLayout>(R.id.save_button)
         val cancelButton = dialogView.findViewById<ConstraintLayout>(R.id.cancel_button)
 
-        var photoInt: Int = 0;
-        var photoUri: Uri? = null
+        var photoUri: Uri? = child.photoUri
+        var photoInt: Int = child.photoInt
         val photo1: Int = R.drawable.ic_boy
         val photo2: Int = R.drawable.ic_girl
 
-        if (editMode) {
-            Log.d("MyTag", "editMode:, child.birthDate $child.birthDate")
+        imageView.setImageResource(photo1)
 
-            val nameView = dialogView.findViewById<EditText>(R.id.child_name)
-            nameView.setText(child.name)
-            weightView.text = "${child.weight}"
-            addButton.visibility = View.GONE
-            saveButton.visibility = View.VISIBLE
+        nameView.setText(child.name)
+        weightView.setText("${child.weight}")
+
+        if (child.photoUri != null) {
+            imageView.setImageURI(child.photoUri)
+        } else if (child.photoInt != 0) {
+            imageView.setImageResource(child.photoInt)
         } else {
-            weightView.text = ""
-            imageView.setImageURI(null)
+            photoInt = photo1
             imageView.setImageResource(photo1)
-            addButton.visibility = View.VISIBLE
-            saveButton.visibility = View.GONE
         }
+
+        addButton.visibility = if (editMode) View.GONE else View.VISIBLE
+        saveButton.visibility = if (editMode) View.VISIBLE else View.GONE
+
         var selectedDay = selectedDate.get(ChronoField.DAY_OF_MONTH)
         var selectedMonth = selectedDate.get(ChronoField.MONTH_OF_YEAR)
         var selectedYear = selectedDate.get(ChronoField.YEAR)
@@ -530,26 +523,14 @@ class DialogHelper {
         //
         imageHolder.imageUri.observe(vlc) { uri ->
             if (uri != null) {
-                photoUri = uri
+                photoUri = uri.toUri()
+                child.photoUri = photoUri
+                child.photoInt = 0
                 photoInt = 0
-                imageView.setImageURI(uri)
+                imageView.setImageURI(photoUri)
             }
         }
-        if (child.photoUri != null) {
-            photoUri = child.photoUri
-            imageView.setImageURI(child.photoUri)
-            markDefaultImages(
-                0,
-                imageView,
-                imageView1,
-                imageView2,
-                cardView,
-                cardView1,
-                cardView2
-            )
-        } else if (child.photoInt != 0) {
-            photoInt = child.photoInt
-            imageView.setImageResource(child.photoInt)
+        if (child.photoUri != null || child.photoInt != 0) {
             markDefaultImages(
                 0,
                 imageView,
@@ -591,10 +572,12 @@ class DialogHelper {
             markDefaultImages(0, imageView, imageView1, imageView2, cardView, cardView1, cardView2)
         }
         cardView1.setOnClickListener {
+            child.photoUri = null
             child.photoInt = photo1
             markDefaultImages(1, imageView, imageView1, imageView2, cardView, cardView1, cardView2)
         }
         cardView2.setOnClickListener {
+            child.photoUri = null
             child.photoInt = photo2
             markDefaultImages(2, imageView, imageView1, imageView2, cardView, cardView1, cardView2)
         }
@@ -629,22 +612,27 @@ class DialogHelper {
         dialog.show()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun openAddAndEditMedicineDialog(
         context: Context,
-        dialogView: View,
-        medicine: MedicineEntity?,
-        editMode: Boolean,
+        medicinePar: MedicineEntity?,
+        categoryList:List<CategoryEntity>,
+        onCategoryList: (Context, TextView, List<String>) -> Unit,
         onSave: (MedicineEntity) -> Unit,
         imageHolder: ImageHolder,
         galleryLauncher: ActivityResultLauncher<String>,
         vlc: LifecycleOwner
-
     ) {
+        var medicine = medicinePar
+        if (medicine == null) medicine = MedicineEntity(0, "", 0, 1, 0, null)
+        var medicinePhotoUri = medicine.photoUri
+        val photoSampleInt: Int = 0
+
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_medicine, null)
 
         // medicine_photo, name
         val nameView = dialogView.findViewById<EditText>(R.id.medicine_name)
         val photoView = dialogView.findViewById<ImageView>(R.id.medicine_photo)
+        val categoryView = dialogView.findViewById<TextView>(R.id.category_name)
 
         val addButton = dialogView.findViewById<ConstraintLayout>(R.id.add_button)
         val saveButton = dialogView.findViewById<ConstraintLayout>(R.id.save_button)
@@ -658,56 +646,60 @@ class DialogHelper {
             val photo: Int
         )
         * */
+        addButton.visibility = if (medicine.id == 0) View.VISIBLE else View.GONE
+        saveButton.visibility = if (medicine.id == 0) View.GONE else View.VISIBLE
 
-        if (editMode) {
-            nameView.setText(medicine?.name ?: "")
-            //weightView.text = "${child.weight}"
-            addButton.visibility = View.GONE
-            saveButton.visibility = View.VISIBLE
+        nameView.setText(medicine.name)
+        if (medicine.photoUri != null) {
+            photoView.setImageURI(medicine.photoUri)
+//        } else if (medicine.photoInt != 0) {
+//            photoView.setImageResource(medicine.photoInt)
+//        } else if (photoSampleInt != 0) {
+//            photoView.setImageResource(photoSampleInt)
+//        }
         } else {
-            //weightView.text = ""
-            addButton.visibility = View.VISIBLE
-            saveButton.visibility = View.GONE
+            photoView.setImageResource(medicine.photoInt)
         }
+
 
         val dialogBuilder = AlertDialog.Builder(context)
         dialogBuilder.setView(dialogView)
         val dialog = dialogBuilder.create()
 
         //
-        if (medicine != null) {
-            if (medicine.photoUri != null) {
-                photoView.setImageURI(medicine.photoUri)
-            } else {
-                photoView.setImageResource(medicine.photoInt)
-            }
-        }
-        //
         dialogView.findViewById<TextView>(R.id.choose_photo).setOnClickListener {
             galleryLauncher.launch("image/*")
         }
         var photoUri: Uri? = null
-        var photoInt: Int = 0
+//        var photoInt: Int = 0
         imageHolder.imageUri.observe(vlc) { uri ->
             if (uri != null) {
-                photoUri = uri
-                photoInt = 0
-                photoView.setImageURI(uri)
+                photoUri = uri.toUri()
+                //
+                medicinePhotoUri = photoUri
+                photoView.setImageURI(photoUri)
             }
         }
         //
+        val categoryNameList = categoryList.map { it.name }
+        categoryView.setOnClickListener {
+            onCategoryList (context, categoryView, categoryNameList)
+        }
+        //
         val saveClickListener = View.OnClickListener { view ->
-            val medicineId = medicine?.id ?: 0
-            val categoryId = 0;
+            val categoryName = categoryView.text.toString()
+            val category = categoryList.filter { it.name == categoryName }[0]
+            val categoryId = category.id;
             val unitId = 1;
+            val photoInt = 0
             val newMedicine =
                 MedicineEntity(
-                    medicineId,
+                    medicine.id,
                     nameView.text.toString(),
                     categoryId,
                     unitId,
                     photoInt,
-                    photoUri
+                    medicinePhotoUri
                 )
             onSave(newMedicine)
             dialog.dismiss()

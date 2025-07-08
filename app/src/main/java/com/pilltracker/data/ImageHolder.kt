@@ -2,6 +2,7 @@ package com.pilltracker.data
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import java.io.File
@@ -18,7 +19,9 @@ class ImageHolder(val context: Context) {
     fun setImageUri(uri: Uri?) {
         if (uri == null) return
         val newUri = copyImageToInternalStorage(uri)
-        if (newUri != null) _imageUri.value = uri.toString()
+        Log.d("MyTag", "ImageHolder.setImageUri(), oldUri=$uri")
+        Log.d("MyTag", "ImageHolder.setImageUri(), newUri=$newUri")
+        if (newUri != null) _imageUri.value = newUri.toString()
     }
 
     fun copyImageToInternalStorage(uri: Uri): Uri? {

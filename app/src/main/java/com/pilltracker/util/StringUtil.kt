@@ -1,20 +1,36 @@
 package com.pilltracker.util
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.pilltracker.R
-import java.text.DateFormat
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.Period
-import java.time.Year
-import java.time.temporal.ChronoField
+import java.time.Month
+import java.time.format.TextStyle
+import java.util.Locale
 
 class StringUtil {
     companion object {
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun convertDateToString(date: LocalDate): String {
+
+        fun getLocalizedMonths(locale: Locale): List<String> {
+            return Month.entries.map { month ->
+                month.getDisplayName(TextStyle.SHORT, locale)
+            }
+        }
+
+        fun getMonthNumberByName(name: String, locale: Locale): Int {
+            var result = 0
+            Month.entries.forEach {
+                result++
+                if(it.name.contains(name)) return result
+            }
+            return 0
+        }
+
+        fun convertDateToFullString(date: LocalDate): String {
             val year = date.year
             val month = date.monthValue
             val day = date.dayOfMonth
@@ -22,8 +38,7 @@ class StringUtil {
             return result
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun convertDateFromString(str: String): LocalDate {
+        fun convertDateFromFulString(str: String): LocalDate {
             val arr = str.split(".")
             try {
                 var year = arr[0].toInt()
@@ -37,22 +52,55 @@ class StringUtil {
             }
             return LocalDate.now()
         }
+        fun convertDateFromShortString(str: String): LocalDate {
+            val arr = str.split(".")
+            try {
+                var day = arr[0].toInt()
+                var month = arr[1].toInt()
+                val year = LocalDate.now().year
+                val result = LocalDate.of(year, month, day)
+                return result
+            } catch (e: Exception) {
+                Log.d("MyTag", "StringUtil ????????????? 01")
+            }
+            return LocalDate.now()
+        }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun convertDateToShortString(date: LocalDate): String {
-            val month = date.monthValue + 1
+            val month = date.monthValue
             val day = date.dayOfMonth
             return "$day.$month"
         }
+        fun convertDateToShortNameString(date: LocalDate): String {
+            //val month = date.month.name
+            val month = date.month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+            val day = date.dayOfMonth
+            return "$day $month"
+        }
+        fun convertDateToYear(date: LocalDate): Int {
+            return date.year
+        }
+        fun convertDateFromShortNameString(str: String): LocalDate {
+            val arr = str.split(" ")
+            try {
+                var day = arr[0].toInt()
 
-        @RequiresApi(Build.VERSION_CODES.O)
+                var month = getMonthNumberByName(arr[1], Locale.ENGLISH)
+                val year = LocalDate.now().year
+                val result = LocalDate.of(year, month, day)
+                return result
+            } catch (e: Exception) {
+                Log.d("MyTag", "StringUtil ????????????? 01")
+            }
+            return LocalDate.now()
+        }
+
         fun convertTimeToString(time: LocalTime): String {
             val hrs = time.hour
             val minute = time.minute
             return "$hrs:$minute"
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun convertTimeFromString(str: String): LocalTime {
             val arr = str.split(":")
             val hrs = arr[0].toInt()
@@ -60,12 +108,15 @@ class StringUtil {
             return LocalTime.of(hrs, minute)
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun convertTemperatureFromString(str: String): Double {
             val arr = str.split(".")
             val p1 = arr[0].toInt()
-            val p2 = arr[1].toInt()
-            return p1 * 0.1 + p2 / 10
+            val p2 = arr[1].toDouble()
+            return p1 * 1.0 + p2 / 10
+        }
+        @SuppressLint("DefaultLocale")
+        fun convertTemperatureToString(temp:Double): String {
+            return String.format("%.1f", temp)
         }
 
         fun convertStringToInt(str: String, default: Int): Int {
@@ -75,13 +126,25 @@ class StringUtil {
             }
             return default
         }
-
-        @RequiresApi(Build.VERSION_CODES.O)
+        fun convertCountDaysToShortString(value: Int):String{
+            when(value){
+                1-> return "1st"
+                2-> return "2nd"
+                3-> return "3d"
+                4-> return "4d"
+                5-> return "5th"
+                6-> return "6th"
+            }
+            return "${value}d"
+        }
         fun calculateAge(birthDay: LocalDate): Int {
             return Period.between(birthDay, LocalDate.now()).years
         }
+        fun calculateDays(date: LocalDate, currentDate: LocalDate): Int {
+            //return Period.between(date, LocalDate.now()).days
+            return Period.between(date, currentDate).days
+        }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun convertStringToLocalDate(dateStr: String): LocalDate {
             val default = LocalDate.now()
             val arr: List<String> = dateStr.split("_")

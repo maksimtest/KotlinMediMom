@@ -79,8 +79,10 @@ class ChildrenAdapter(
         holder.name.text = child.name
         holder.age.text = "${child.age} years"
         holder.weight.text = "${child.weight} kg"
-        if(child.photoUri!=null){
+        if(child.photoUri != null){
+            Log.d("MyTag","Try_before save holder.photo.setImageURI, child.photoUri = ${child.photoUri}")
             holder.photo.setImageURI(child.photoUri)
+            Log.d("MyTag","Try_end save holder.photo.setImageURI, child.photoUri = ${child.photoUri}")
         } else if(child.photoInt!=0){
             holder.photo.setImageResource(child.photoInt)
         } else{
@@ -89,7 +91,7 @@ class ChildrenAdapter(
         if (!healthy) {
             holder.sickDate?.text = child.sickDate
             val temperature = child.lastTemperature;
-            holder.temperature?.text = "$temperature*C"
+            holder.temperature?.text = "$temperature °C"
             holder.state?.text = child.state
             if (temperature >= 37.0) {
                 holder.temperature?.setTextColor(attentionColor)

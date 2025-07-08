@@ -35,7 +35,7 @@ interface MedicineDao {
 
     //@Transaction
     @Query("""
-        SELECT *
+        SELECT m.id, m.name, m.categoryId, m.unitId, m.photoInt, m.photoUri
         FROM medicines m
         JOIN categories c ON m.categoryId = c.id
         WHERE c.isPyretyc = 1

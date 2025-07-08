@@ -13,7 +13,8 @@ interface FactDao {
     suspend fun insert(factEntity: FactEntity)
 
     @Query("""
-        SELECT * 
+        SELECT f.id, f.childId, f.temperature, f.moreThanUsual, f.medicineId,
+            f.sicknessId, f.temperatureMode, f.date, f.time
         FROM facts f
         JOIN sicknesses s 
         WHERE f.sicknessId=s.id AND s.finished=0
@@ -23,32 +24,10 @@ interface FactDao {
     @Update
     suspend fun update(factEntity: FactEntity)
 
+    @Query("""
+        SELECT * 
+        FROM facts
+        """)
+    suspend fun getAll(): List<FactEntity>
+
 }
-
-/*
-
-FactEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val childId: Int,
-    val temperature: Double,
-    val moreThanUsual: Boolean,
-    val medicineId: Int,
-    val temperatureMode: Boolean,
-    val date: LocalDate,
-    val time: LocalTime
-)
-data class FactWithDetails(
-    val id: Int,
-    val childId: Int,
-    val childName: String,
-    val childPhoto: Int,
-    val childAge: Int,
-    val temperature: Double,
-    val moreThanUsual: Boolean,
-    val medicineId: Int,
-    val medicineName: String,
-    val temperatureMode: Boolean,
-    val date: LocalDate,
-    val time: LocalTime
-)
-* */

@@ -46,7 +46,7 @@ This application respects your privacy. You can read the full privacy policy her
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/maksimtest/MediMom.git
+   git clone https://github.com/maksimtest/KotlinMediMom.git
    ```
 2. Open the project in Android Studio Arctic Fox or newer.
 3. Let Gradle sync and build the project.

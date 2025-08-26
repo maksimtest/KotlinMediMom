@@ -38,6 +38,10 @@ app/
   ├── info/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # ViewModel classes<br>
   └── util/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Utility classes and helpers<br>
 
+## Google Play Status
+
+Hold on registration step (requires company account due to medical app category).
+
 ## Privacy Policy
 
 This application respects your privacy. You can read the full privacy policy here:

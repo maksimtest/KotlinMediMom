@@ -1,4 +1,4 @@
-package com.pilltracker.data
+package com.medimom.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

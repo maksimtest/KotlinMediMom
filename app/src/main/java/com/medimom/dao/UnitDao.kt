@@ -1,10 +1,10 @@
-package com.pilltracker.dao
+package com.medimom.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.pilltracker.entity.UnitEntity
+import com.medimom.entity.UnitEntity
 
 @Dao
 interface UnitDao {

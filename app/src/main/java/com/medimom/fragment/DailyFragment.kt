@@ -1,7 +1,6 @@
-package com.pilltracker.fragment
+package com.medimom.fragment
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,18 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.databinding.FragmentDailyBinding
+import com.medimom.databinding.FragmentDailyBinding
 import androidx.fragment.app.activityViewModels
-import com.pilltracker.MyApp
-import com.pilltracker.adapters.DailyTemperatureByChildAdapter
-import com.pilltracker.data.MainViewModel
-import com.pilltracker.data.UserSettings
-import com.pilltracker.entity.FactEntity
-import com.pilltracker.entity.MedicineEntity
-import com.pilltracker.entity.SicknessEntity
+import com.medimom.MyApp
+import com.medimom.adapters.DailyTemperatureByChildAdapter
+import com.medimom.data.MainViewModel
+import com.medimom.data.UserSettings
+import com.medimom.entity.FactEntity
+import com.medimom.entity.MedicineEntity
+import com.medimom.entity.SicknessEntity
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.Int

@@ -1,14 +1,13 @@
-package com.pilltracker.adapters
+package com.medimom.adapters
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.R
-import com.pilltracker.info.CategoryWithMedicineInfo
+import com.medimom.R
+import com.medimom.info.CategoryWithMedicineInfo
 
 class CategoryWithMedicineAdaptor :
     RecyclerView.Adapter<CategoryWithMedicineAdaptor.ViewHolder>() {

@@ -1,6 +1,6 @@
-package com.pilltracker.info
+package com.medimom.info
 
-import com.pilltracker.entity.ChildEntity
+import com.medimom.entity.ChildEntity
 
 class StatisticListInfo(
     val child: ChildEntity,

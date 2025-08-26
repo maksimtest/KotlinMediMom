@@ -1,8 +1,8 @@
-package com.pilltracker
+package com.medimom
 
 import android.app.Application
-import com.pilltracker.data.AppDatabase
-import com.pilltracker.data.UserSettings
+import com.medimom.data.AppDatabase
+import com.medimom.data.UserSettings
 
 class MyApp : Application() {
     lateinit var userSettings: UserSettings

@@ -1,19 +1,17 @@
-package com.pilltracker
+package com.medimom
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.pilltracker.data.AppRepository
-import com.pilltracker.data.MainViewModel
-import com.pilltracker.data.MainViewModelFactory
-import com.pilltracker.data.UserSettings
-import com.pilltracker.databinding.ActivityMainBinding
+import com.medimom.data.AppRepository
+import com.medimom.data.MainViewModel
+import com.medimom.data.MainViewModelFactory
+import com.medimom.data.UserSettings
+import com.medimom.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -21,7 +19,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

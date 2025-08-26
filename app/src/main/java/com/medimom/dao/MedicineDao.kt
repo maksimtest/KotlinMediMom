@@ -1,4 +1,4 @@
-package com.pilltracker.dao
+package com.medimom.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -6,8 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.pilltracker.data.MedicineWithCategory
-import com.pilltracker.entity.MedicineEntity
+import com.medimom.data.MedicineWithCategory
+import com.medimom.entity.MedicineEntity
 
 @Dao
 interface MedicineDao {

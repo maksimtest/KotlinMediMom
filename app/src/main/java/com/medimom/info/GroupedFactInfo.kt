@@ -1,4 +1,4 @@
-package com.pilltracker.info
+package com.medimom.info
 
 
 sealed class GroupedFactInfo{

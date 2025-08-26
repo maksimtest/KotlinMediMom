@@ -1,21 +1,16 @@
-package com.pilltracker.fragment
+package com.medimom.fragment
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
-import com.pilltracker.MyApp
-import com.pilltracker.R
-import com.pilltracker.data.MainViewModel
-import com.pilltracker.data.UserSettings
-import com.pilltracker.databinding.FragmentChildrenBinding
-import com.pilltracker.databinding.FragmentRecipeBinding
-import com.pilltracker.util.StringUtil
+import com.medimom.MyApp
+import com.medimom.data.MainViewModel
+import com.medimom.data.UserSettings
+import com.medimom.databinding.FragmentRecipeBinding
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.getValue

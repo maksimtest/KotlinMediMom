@@ -1,4 +1,4 @@
-package com.pilltracker.info
+package com.medimom.info
 
 import java.time.LocalDate
 

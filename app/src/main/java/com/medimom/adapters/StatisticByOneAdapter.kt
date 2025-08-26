@@ -1,19 +1,16 @@
-package com.pilltracker.adapters
+package com.medimom.adapters
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.R
-import com.pilltracker.info.StatisticByOneInfo
-import com.pilltracker.util.StringUtil
+import com.medimom.R
+import com.medimom.info.StatisticByOneInfo
+import com.medimom.util.StringUtil
 
 class StatisticByOneAdapter(val list: List<StatisticByOneInfo>) :
     ListAdapter<StatisticByOneInfo, StatisticByOneAdapter.ViewHolder>(DiffCallback()) {

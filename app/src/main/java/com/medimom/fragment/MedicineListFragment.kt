@@ -1,8 +1,7 @@
-package com.pilltracker.fragment
+package com.medimom.fragment
 
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,19 +11,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.R
-import com.pilltracker.adapters.GroupedMedicineAdaptor
-import com.pilltracker.data.AppDatabase
-import com.pilltracker.data.ImageHolder
-import com.pilltracker.data.MainViewModel
-import com.pilltracker.info.GroupedMedicineInfo
-import com.pilltracker.databinding.FragmentMedicineListBinding
-import com.pilltracker.entity.CategoryEntity
-import com.pilltracker.entity.MedicineEntity
+import com.medimom.R
+import com.medimom.adapters.GroupedMedicineAdaptor
+import com.medimom.data.ImageHolder
+import com.medimom.data.MainViewModel
+import com.medimom.databinding.FragmentMedicineListBinding
+import com.medimom.entity.CategoryEntity
+import com.medimom.entity.MedicineEntity
 import kotlin.getValue
 
 class MedicineListFragment : Fragment() {

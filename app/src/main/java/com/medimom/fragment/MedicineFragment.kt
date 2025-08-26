@@ -1,4 +1,4 @@
-package com.pilltracker.fragment
+package com.medimom.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.pilltracker.adapters.MedicineTabsAdapter
-import com.pilltracker.databinding.FragmentMedicineBinding
+import com.medimom.adapters.MedicineTabsAdapter
+import com.medimom.databinding.FragmentMedicineBinding
 
 class MedicineFragment : Fragment() {
     private lateinit var tabLayout: TabLayout

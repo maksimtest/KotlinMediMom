@@ -1,10 +1,10 @@
-package com.pilltracker.adapters
+package com.medimom.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.pilltracker.fragment.MedicineFragment
-import com.pilltracker.fragment.MedicineCategoryFragment
-import com.pilltracker.fragment.MedicineListFragment
+import com.medimom.fragment.MedicineFragment
+import com.medimom.fragment.MedicineCategoryFragment
+import com.medimom.fragment.MedicineListFragment
 
 class MedicineTabsAdapter(fragmentActivity: MedicineFragment) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int = 2

@@ -1,9 +1,9 @@
-package com.pilltracker.info
+package com.medimom.info
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.pilltracker.entity.CategoryEntity
-import com.pilltracker.entity.MedicineEntity
+import com.medimom.entity.CategoryEntity
+import com.medimom.entity.MedicineEntity
 
 data class CategoryWithMedicineInfo (
     @Embedded

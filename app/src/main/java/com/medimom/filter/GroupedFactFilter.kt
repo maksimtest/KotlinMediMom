@@ -1,4 +1,4 @@
-package com.pilltracker.filter
+package com.medimom.filter
 
 data class GroupedFactFilter(private var isTemperatureShow: Boolean, private var isTakePillsShow:Boolean){
     fun turnTemperature(value:Boolean){

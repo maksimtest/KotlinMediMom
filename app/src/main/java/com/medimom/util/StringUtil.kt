@@ -1,10 +1,8 @@
-package com.pilltracker.util
+package com.medimom.util
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
-import com.pilltracker.R
+import com.medimom.R
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.Period
@@ -44,11 +42,10 @@ class StringUtil {
                 var year = arr[0].toInt()
                 var month = arr[1].toInt()
                 var day = arr[2].toInt()
-                //LocalDate.now().dayOfMonth
                 val result = LocalDate.of(year, month, day)
                 return result
             } catch (e: Exception) {
-                Log.d("MyTag", "StringUtil ????????????? 01")
+                Log.d("MyTag", "StringUtil Error 01")
             }
             return LocalDate.now()
         }
@@ -72,7 +69,6 @@ class StringUtil {
             return "$day.$month"
         }
         fun convertDateToShortNameString(date: LocalDate): String {
-            //val month = date.month.name
             val month = date.month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
             val day = date.dayOfMonth
             return "$day $month"
@@ -141,7 +137,6 @@ class StringUtil {
             return Period.between(birthDay, LocalDate.now()).years
         }
         fun calculateDays(date: LocalDate, currentDate: LocalDate): Int {
-            //return Period.between(date, LocalDate.now()).days
             return Period.between(date, currentDate).days
         }
 

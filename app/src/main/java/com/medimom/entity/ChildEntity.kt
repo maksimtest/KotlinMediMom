@@ -1,4 +1,4 @@
-package com.pilltracker.entity
+package com.medimom.entity
 
 import android.net.Uri
 import androidx.room.Entity

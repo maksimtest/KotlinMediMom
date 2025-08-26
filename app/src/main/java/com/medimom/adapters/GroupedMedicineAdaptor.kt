@@ -1,4 +1,4 @@
-package com.pilltracker.adapters
+package com.medimom.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.R
-import com.pilltracker.info.GroupedMedicineInfo
+import com.medimom.R
+import com.medimom.info.GroupedMedicineInfo
 
 class GroupedMedicineAdaptor(val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

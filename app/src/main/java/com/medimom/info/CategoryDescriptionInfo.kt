@@ -1,3 +1,3 @@
-package com.pilltracker.info
+package com.medimom.info
 
 data class CategoryDescriptionInfo(val name: String, val description:String) {}

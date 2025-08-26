@@ -1,4 +1,4 @@
-package com.pilltracker.fragment
+package com.medimom.fragment
 
 import android.app.AlertDialog
 import android.content.Context
@@ -25,19 +25,19 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.R
-import com.pilltracker.data.ImageHolder
-import com.pilltracker.entity.FactEntity
-import com.pilltracker.entity.MedicineEntity
-import com.pilltracker.info.ChildInfo
-import com.pilltracker.util.StringUtil
+import com.medimom.R
+import com.medimom.data.ImageHolder
+import com.medimom.entity.FactEntity
+import com.medimom.entity.MedicineEntity
+import com.medimom.info.ChildInfo
+import com.medimom.util.StringUtil
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.temporal.ChronoField
 import java.util.Locale
 import kotlin.Int
 import androidx.core.net.toUri
-import com.pilltracker.entity.CategoryEntity
+import com.medimom.entity.CategoryEntity
 
 class DialogHelper {
     private var globalSpecifiedHrs: Int = 0
@@ -164,12 +164,10 @@ class DialogHelper {
         reduceDateBtn.visibility = View.INVISIBLE
         reduceDateBtn.setOnClickListener {
             spinnerDay.setSelection(spinnerDay.selectedItemPosition - 1)
-            // TODO if first day-need reduce month
         }
         increaseDateBtn.visibility = View.INVISIBLE
         increaseDateBtn.setOnClickListener {
             spinnerDay.setSelection(spinnerDay.selectedItemPosition + 1)
-            // TODO if last dat-need increase month
         }
         healthyBtn.setOnClickListener {
             setHealthyForChild(child .id, currentDate)
@@ -221,7 +219,7 @@ class DialogHelper {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // если ничего не выбрано
+                // if selected nothing
             }
         }
 
@@ -242,7 +240,7 @@ class DialogHelper {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // если ничего не выбрано
+                // if selected nothing
             }
         }
 
@@ -272,7 +270,7 @@ class DialogHelper {
             dialog.dismiss()
         }
         fillTimeSpinner(context, timeView, spinnerHrs, spinnerMinutes, specifiedTime)
-        //
+
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         dialog.show()
 
@@ -288,7 +286,7 @@ class DialogHelper {
         val dialogBuilder = AlertDialog.Builder(context)
         dialogBuilder.setView(dialogView)
         val dialog = dialogBuilder.create()
-        //
+
         val spinnerWhole = dialogView.findViewById<Spinner>(R.id.spinner_whole)
         val spinnerDecimal = dialogView.findViewById<Spinner>(R.id.spinner_decimal)
         val okBtn = dialogView.findViewById<ImageView>(R.id.ok_btn)
@@ -299,7 +297,7 @@ class DialogHelper {
             dialog.dismiss()
         }
         fillTemperatureSpinner(context, spinnerWhole, spinnerDecimal)
-        //
+
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         dialog.show()
     }
@@ -309,18 +307,13 @@ class DialogHelper {
         medicineView: TextView,
         medicineList: List<String>
     ) {
-        //val dialogBuilder = AlertDialog.Builder(context)
-        //dialogBuilder.setView(dialogView)
-        //val dialog = dialogBuilder.create()
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_simple_medicine, null)
 
         val dialog = AlertDialog.Builder(context)
             .setView(dialogView)
             .create()
-        //
+
         val medicineRV = dialogView.findViewById<RecyclerView>(R.id.medicine_list)
-        //val okBtn = dialogView.findViewById<ImageView>(R.id.ok_btn)
-        //val cancelBtn = dialogView.findViewById<ImageView>(R.id.cancel_btn)
 
         medicineRV.layoutManager = LinearLayoutManager(context)
         val adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -349,14 +342,6 @@ class DialogHelper {
 
         medicineRV.adapter = adapter
 
-        //okBtn.setOnClickListener {
-//            //val value = "${globalSpecifiedWhole}.${globalSpecifiedDecimal}"
-//            val idValue = 0;
-//            callback(idValue)
-        //    dialog.dismiss()
-        // }
-        // cancelBtn.setOnClickListener { dialog.dismiss() }
-        //
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         dialog.show()
     }
@@ -401,7 +386,7 @@ class DialogHelper {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // если ничего не выбрано
+                // if selected nothing
             }
         }
     }
@@ -441,7 +426,7 @@ class DialogHelper {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // если ничего не выбрано
+                // if selected nothing
             }
         }
 
@@ -453,7 +438,7 @@ class DialogHelper {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // если ничего не выбрано
+                // if selected nothing
             }
         }
     }
@@ -478,7 +463,6 @@ class DialogHelper {
         val datePicker = dialogView.findViewById<DatePicker>(R.id.child_date)
         val nameView = dialogView.findViewById<EditText>(R.id.child_name)
         val weightView = dialogView.findViewById<EditText>(R.id.child_weight)
-        //val photoView = ""//dialogView.findViewById<ImageView>(R.id.choosePhoto)
         val imageView = dialogView.findViewById<ImageView>(R.id.child_image)
         val imageView1 = dialogView.findViewById<ImageView>(R.id.child_image1)
         val imageView2 = dialogView.findViewById<ImageView>(R.id.child_image2)
@@ -520,7 +504,7 @@ class DialogHelper {
         dialogBuilder.setView(dialogView)
         val dialog = dialogBuilder.create()
 
-        //
+
         imageHolder.imageUri.observe(vlc) { uri ->
             if (uri != null) {
                 photoUri = uri.toUri()
@@ -582,20 +566,15 @@ class DialogHelper {
             markDefaultImages(2, imageView, imageView1, imageView2, cardView, cardView1, cardView2)
         }
 
-        //
-        //val imageChanger = dialogView.findViewById<TextView>(R.id.choose_photo)
-
         dialogView.findViewById<TextView>(R.id.choose_photo).setOnClickListener {
             galleryLauncher.launch("image/*")
         }
 
-        //
-        //val today = Calendar.getInstance()
         datePicker.init(selectedYear, selectedMonth, selectedDay) { view, year, month, day ->
             val actualMonth = month + 1
             globalSpecifiedDate = LocalDate.of(year, actualMonth, day)
         }
-        ///
+
         val saveClickListener = View.OnClickListener { view ->
             child.name = nameView.text.toString()
             child.weight = StringUtil.convertStringToInt(weightView.text.toString(), child.weight)
@@ -652,11 +631,6 @@ class DialogHelper {
         nameView.setText(medicine.name)
         if (medicine.photoUri != null) {
             photoView.setImageURI(medicine.photoUri)
-//        } else if (medicine.photoInt != 0) {
-//            photoView.setImageResource(medicine.photoInt)
-//        } else if (photoSampleInt != 0) {
-//            photoView.setImageResource(photoSampleInt)
-//        }
         } else {
             photoView.setImageResource(medicine.photoInt)
         }
@@ -666,26 +640,23 @@ class DialogHelper {
         dialogBuilder.setView(dialogView)
         val dialog = dialogBuilder.create()
 
-        //
         dialogView.findViewById<TextView>(R.id.choose_photo).setOnClickListener {
             galleryLauncher.launch("image/*")
         }
         var photoUri: Uri? = null
-//        var photoInt: Int = 0
         imageHolder.imageUri.observe(vlc) { uri ->
             if (uri != null) {
                 photoUri = uri.toUri()
-                //
+
                 medicinePhotoUri = photoUri
                 photoView.setImageURI(photoUri)
             }
         }
-        //
         val categoryNameList = categoryList.map { it.name }
         categoryView.setOnClickListener {
             onCategoryList (context, categoryView, categoryNameList)
         }
-        //
+
         val saveClickListener = View.OnClickListener { view ->
             val categoryName = categoryView.text.toString()
             val category = categoryList.filter { it.name == categoryName }[0]

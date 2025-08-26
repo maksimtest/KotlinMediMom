@@ -1,4 +1,4 @@
-package com.pilltracker.entity
+package com.medimom.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

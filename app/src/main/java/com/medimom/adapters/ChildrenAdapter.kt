@@ -1,4 +1,4 @@
-package com.pilltracker.adapters
+package com.medimom.adapters
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -10,9 +10,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.R
-import com.pilltracker.entity.SicknessEntity
-import com.pilltracker.info.ChildInfo
+import com.medimom.R
+import com.medimom.info.ChildInfo
 import kotlin.Int
 
 class ChildrenAdapter(

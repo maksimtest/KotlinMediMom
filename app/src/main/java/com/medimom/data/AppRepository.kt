@@ -1,14 +1,12 @@
-package com.pilltracker.data
+package com.medimom.data
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.pilltracker.entity.CategoryEntity
-import com.pilltracker.entity.ChildEntity
-import com.pilltracker.entity.FactEntity
-import com.pilltracker.entity.MedicineEntity
-import com.pilltracker.entity.SicknessEntity
-import com.pilltracker.entity.UnitEntity
-import com.pilltracker.info.GroupedMedicineInfo
+import com.medimom.entity.CategoryEntity
+import com.medimom.entity.ChildEntity
+import com.medimom.entity.FactEntity
+import com.medimom.entity.MedicineEntity
+import com.medimom.entity.SicknessEntity
+import com.medimom.entity.UnitEntity
+import com.medimom.info.GroupedMedicineInfo
 
 class AppRepository(private val db: AppDatabase) {
     val dataHelper = DataHelper()
@@ -54,7 +52,6 @@ class AppRepository(private val db: AppDatabase) {
 
     suspend fun getChildren() = db.childDao().getAll()
 
-    // TODO need analyze and add description information
     suspend fun getGroupedMedicinesByCategoryList():List<GroupedMedicineInfo> {
         val medicinesList = db.medicineDao().getAllWithMedicines()
         return DataHelper().generateMedicinesByCategory(medicinesList)

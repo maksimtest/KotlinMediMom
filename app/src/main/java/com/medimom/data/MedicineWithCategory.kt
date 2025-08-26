@@ -1,4 +1,4 @@
-package com.pilltracker.data
+package com.medimom.data
 
 import android.net.Uri
 

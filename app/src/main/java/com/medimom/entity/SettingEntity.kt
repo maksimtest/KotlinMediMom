@@ -1,4 +1,4 @@
-package com.pilltracker.entity
+package com.medimom.entity
 
 class SettingEntity(
     val weightUnit: String,// kg,

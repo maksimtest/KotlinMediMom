@@ -1,4 +1,4 @@
-package com.pilltracker.fragment
+package com.medimom.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,24 +10,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.MyApp
-import com.pilltracker.R
-import com.pilltracker.adapters.ChildrenAdapter
-import com.pilltracker.data.ImageHolder
-import com.pilltracker.info.ChildInfo
-import com.pilltracker.databinding.FragmentChildrenBinding
-import com.pilltracker.data.MainViewModel
-import com.pilltracker.data.UserSettings
-import com.pilltracker.entity.FactEntity
+import com.medimom.MyApp
+import com.medimom.R
+import com.medimom.adapters.ChildrenAdapter
+import com.medimom.data.ImageHolder
+import com.medimom.info.ChildInfo
+import com.medimom.databinding.FragmentChildrenBinding
+import com.medimom.data.MainViewModel
+import com.medimom.data.UserSettings
+import com.medimom.entity.FactEntity
 import java.time.LocalDate
-import java.time.LocalTime
 import kotlin.Int
 import kotlin.getValue
 

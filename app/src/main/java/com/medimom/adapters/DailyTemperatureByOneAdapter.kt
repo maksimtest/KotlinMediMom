@@ -1,4 +1,4 @@
-package com.pilltracker.adapters
+package com.medimom.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.R
-import com.pilltracker.info.DailyTemperatureByOneInfo
+import com.medimom.R
+import com.medimom.info.DailyTemperatureByOneInfo
 
 class DailyTemperatureByOneAdapter:
     ListAdapter<DailyTemperatureByOneInfo, DailyTemperatureByOneAdapter.ViewHolder>(DiffCallback()) {

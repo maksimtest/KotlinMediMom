@@ -1,22 +1,22 @@
-package com.pilltracker.data
+package com.medimom.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.pilltracker.dao.CategoryDao
-import com.pilltracker.dao.ChildDao
-import com.pilltracker.dao.FactDao
-import com.pilltracker.dao.MedicineDao
-import com.pilltracker.dao.SicknessDao
-import com.pilltracker.dao.UnitDao
-import com.pilltracker.entity.CategoryEntity
-import com.pilltracker.entity.ChildEntity
-import com.pilltracker.entity.FactEntity
-import com.pilltracker.entity.MedicineEntity
-import com.pilltracker.entity.SicknessEntity
-import com.pilltracker.entity.UnitEntity
+import com.medimom.dao.CategoryDao
+import com.medimom.dao.ChildDao
+import com.medimom.dao.FactDao
+import com.medimom.dao.MedicineDao
+import com.medimom.dao.SicknessDao
+import com.medimom.dao.UnitDao
+import com.medimom.entity.CategoryEntity
+import com.medimom.entity.ChildEntity
+import com.medimom.entity.FactEntity
+import com.medimom.entity.MedicineEntity
+import com.medimom.entity.SicknessEntity
+import com.medimom.entity.UnitEntity
 
 @Database(entities = [
     CategoryEntity::class, MedicineEntity::class, UnitEntity::class,

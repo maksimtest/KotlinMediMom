@@ -1,4 +1,4 @@
-package com.pilltracker.entity
+package com.medimom.entity
 
 import java.time.LocalDate
 import java.time.LocalTime

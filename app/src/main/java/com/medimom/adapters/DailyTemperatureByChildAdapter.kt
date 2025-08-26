@@ -1,24 +1,22 @@
-package com.pilltracker.adapters
+package com.medimom.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pilltracker.R
-import com.pilltracker.entity.FactEntity
-import com.pilltracker.entity.MedicineEntity
-import com.pilltracker.entity.SicknessEntity
-import com.pilltracker.info.DailyTemperatureByDayInfo
-import com.pilltracker.info.DailyTemperatureListInfo
-import com.pilltracker.util.StringUtil
+import com.medimom.R
+import com.medimom.entity.FactEntity
+import com.medimom.entity.MedicineEntity
+import com.medimom.entity.SicknessEntity
+import com.medimom.info.DailyTemperatureByDayInfo
+import com.medimom.info.DailyTemperatureListInfo
+import com.medimom.util.StringUtil
 import java.time.LocalDate
 import java.time.LocalTime
 

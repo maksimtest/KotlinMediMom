@@ -1,26 +1,16 @@
-package com.pilltracker.adapters
+package com.medimom.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pilltracker.R
-import com.pilltracker.entity.FactEntity
-import com.pilltracker.entity.MedicineEntity
-import com.pilltracker.entity.SicknessEntity
-import com.pilltracker.info.StatisticByOneInfo
-import com.pilltracker.info.StatisticListInfo
-import com.pilltracker.util.StringUtil
-import java.time.LocalDate
-import java.time.LocalTime
+import com.medimom.R
+import com.medimom.info.StatisticListInfo
 
 class StatisticListAdapter : RecyclerView.Adapter<StatisticListAdapter.ChildViewHolder>() {
 

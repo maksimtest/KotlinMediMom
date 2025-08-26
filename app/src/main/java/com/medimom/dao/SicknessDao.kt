@@ -1,16 +1,11 @@
-package com.pilltracker.dao
+package com.medimom.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
-import com.pilltracker.entity.CategoryEntity
-import com.pilltracker.entity.ChildEntity
-import com.pilltracker.entity.SicknessEntity
-import com.pilltracker.info.CategoryWithMedicineInfo
-import java.time.LocalDate
+import com.medimom.entity.SicknessEntity
 
 @Dao
 interface SicknessDao {

@@ -1,23 +1,16 @@
-package com.pilltracker.fragment
+package com.medimom.fragment
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pilltracker.R
-import com.pilltracker.adapters.DailyTemperatureByChildAdapter
-import com.pilltracker.adapters.StatisticListAdapter
-import com.pilltracker.data.MainViewModel
-import com.pilltracker.databinding.FragmentDailyBinding
-import com.pilltracker.databinding.FragmentStatisticBinding
-import com.pilltracker.entity.MedicineEntity
-import com.pilltracker.entity.SicknessEntity
+import com.medimom.adapters.StatisticListAdapter
+import com.medimom.data.MainViewModel
+import com.medimom.databinding.FragmentStatisticBinding
 
 class StatisticFragment : Fragment() {
     private val mainViewModel: MainViewModel by activityViewModels()

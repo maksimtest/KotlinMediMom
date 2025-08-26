@@ -1,27 +1,23 @@
-package com.pilltracker.fragment
+package com.medimom.fragment
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.pilltracker.adapters.CategoryWithMedicineAdaptor
-import com.pilltracker.data.MainViewModel
-import com.pilltracker.databinding.FragmentMedicineCategoryBinding
-import com.pilltracker.entity.CategoryEntity
+import com.medimom.adapters.CategoryWithMedicineAdaptor
+import com.medimom.data.MainViewModel
+import com.medimom.databinding.FragmentMedicineCategoryBinding
+import com.medimom.entity.CategoryEntity
 
 class MedicineCategoryFragment : Fragment() {
     private val mainViewModel: MainViewModel by activityViewModels()
 
-    //    private lateinit var list: ArrayList<CategoryDescriptionInfo>
     private lateinit var listRV: RecyclerView
     private lateinit var adapter: CategoryWithMedicineAdaptor
 
@@ -90,22 +86,6 @@ class MedicineCategoryFragment : Fragment() {
             newCategoryView.visibility = View.INVISIBLE
         }
 
-
-        // Пример: swipe-to-refresh (если ты используешь SwipeRefreshLayout)
-//        val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
-//        swipeRefreshLayout.setOnRefreshListener {
-//            mainViewModel.refresh(db)
-//            swipeRefreshLayout.isRefreshing = false
-//        }
-//
-
-
-        //viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun updateCategory(categoryName: String) {
-//        var category = CategoryEntity(0, categoryName, false)
-//        mainViewModel.updateCategory(category)
-//    }
 }
